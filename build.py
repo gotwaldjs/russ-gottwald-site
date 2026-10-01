@@ -1,23 +1,33 @@
 #!/usr/bin/env python3
 """Build Russ Gottwald's portfolio as plain static pages.
 
-Edit the CONTENT section, then run:  python3 build.py
-Output goes to ./public  (upload that folder to any static host).
-Images: run  python3 fetch_images.py  once to download originals from Cargo into ./public/images.
+Your settings (email, LinkedIn, domain) live in settings.py.
+Edit the CONTENT section below for projects, resume and about, then run:  python3 build.py
+Output goes to ./docs, which GitHub Pages publishes.
+Images: run  python3 fetch_images.py  once to download originals from Cargo into ./docs/images.
 """
 import html, json, os, re, shutil
 
 # ════════════════════════════════════════════════════════════════
 # SETTINGS
 # ════════════════════════════════════════════════════════════════
+# Defaults only. Your real values live in settings.py, which updates to build.py never touch.
 NAME = 'Russ Gottwald'
-EMAIL = 'rl.gottwald@gmail.com'              # [replace]
-LINKEDIN = 'hhttps://www.linkedin.com/in/rlgottwald/'  # [replace]
-LOCATION = '[Richmond, VA]'
-SITE_URL = 'https://russgottwald.com'          # e.g. 'https://russgottwald.com' — enables link-preview images
-SHOW_PROMPTS = False    # True: missing pieces show as [bracketed prompts]. False: left out.
+EMAIL = 'russ@example.com'
+LINKEDIN = 'https://www.linkedin.com/'
+LOCATION = '[City, State]'
+SITE_URL = ''
+SHOW_PROMPTS = True
+try:
+    from settings import *  # noqa: F401,F403
+except ImportError:
+    pass
+OUT_DIR = 'docs'   # GitHub Pages publishes this folder
 CARGO = 'https://payload.cargocollective.com/1/18/592383/'
 ROLES = ['Strategy', 'Copywriting', 'Creative direction', 'Teaching']
+# A LinkedIn address without https:// would become a broken relative link.
+if LINKEDIN: LINKEDIN = 'https://' + re.sub(r'^\s*(?:[a-zA-Z]+:)?/*', '', LINKEDIN.strip())  # fixes 'hhttps://', missing scheme, etc.
+EMAIL = EMAIL.strip().removeprefix('mailto:')
 
 # ════════════════════════════════════════════════════════════════
 # CONTENT
@@ -205,7 +215,7 @@ def page(path, title, desc, body, nav, scripts=(), og_image=None):
     links = [('Work', 'index.html', 'home'), ('About', 'about/index.html', 'about'), ('Resume', 'resume/index.html', 'resume')]
     cur = ' aria-current="page"'
     navhtml = ''.join('<a href="%s%s"%s>%s</a>' % (r, h, cur if k == nav else '', l) for l, h, k in links)
-    js = ''.join(f'<script src="{r}assets/{s}" defer></script>' for s in scripts)
+    js = ''.join(f'<script src="{r}assets/{s}" defer></script>' for s in (('site.js',) + tuple(x for x in scripts if x != 'site.js')))
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -231,7 +241,10 @@ def page(path, title, desc, body, nav, scripts=(), og_image=None):
 </main>
 <footer class="site-foot">
   <p class="ask">Got a problem conventional approaches haven’t solved?</p>
-  <ul class="ways"><li><a href="mailto:{E(EMAIL)}">{E(EMAIL)}</a></li><li><a href="{E(LINKEDIN)}" rel="noopener">LinkedIn</a></li></ul>
+  <ul class="ways">
+    <li><a href="mailto:{E(EMAIL)}">{E(EMAIL)}</a><button type="button" class="copy-email" data-email="{E(EMAIL)}">Copy email</button></li>
+    <li><a href="{E(LINKEDIN)}" target="_blank" rel="noopener">LinkedIn</a></li>
+  </ul>
   <small>© 2026 {E(NAME)}</small>
 </footer>
 </body>
@@ -364,12 +377,29 @@ def resume():
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 def build():
-    out = os.path.join(HERE, 'public')
-    keep_images = os.path.join(out, 'images')
+    out = os.path.join(HERE, OUT_DIR)
+    legacy = os.path.join(HERE, 'public')
+    if os.path.isdir(legacy):
+        # Earlier versions built into ./public. Move it (or just its images) into ./docs, then retire it.
+        if not os.path.isdir(out):
+            os.rename(legacy, out)
+            print('Moved public/ to docs/ (images kept).')
+        else:
+            src_img, dst_img = os.path.join(legacy, 'images'), os.path.join(out, 'images')
+            if os.path.isdir(src_img):
+                for root, _, files in os.walk(src_img):
+                    for f in files:
+                        a = os.path.join(root, f); b = os.path.join(dst_img, os.path.relpath(a, src_img))
+                        if not os.path.exists(b):
+                            os.makedirs(os.path.dirname(b), exist_ok=True); shutil.move(a, b)
+            shutil.rmtree(legacy)
+            print('Moved images from public/ into docs/ and removed the old public/ folder.')
+    keep = {'images', 'CNAME'}
     for name in os.listdir(out) if os.path.isdir(out) else []:
-        if name != 'images':
-            pth = os.path.join(out, name)
-            shutil.rmtree(pth) if os.path.isdir(pth) else os.remove(pth)
+        if name in keep or name.startswith('.'):
+            continue
+        pth = os.path.join(out, name)
+        shutil.rmtree(pth) if os.path.isdir(pth) else os.remove(pth)
     os.makedirs(os.path.join(out, 'assets'), exist_ok=True)
     for f in ('site.css', 'site.js', 'hero.js'): shutil.copy(os.path.join(HERE, 'src', f), os.path.join(out, 'assets', f))
     pages = {'index.html': home(), 'about/index.html': about(), 'resume/index.html': resume()}
@@ -377,13 +407,19 @@ def build():
     for path, htm in pages.items():
         full = os.path.join(out, path); os.makedirs(os.path.dirname(full), exist_ok=True)
         open(full, 'w', encoding='utf-8').write(htm)
-    # image manifest for fetch_images.py
+    # GitHub Pages: CNAME keeps the custom domain across deploys; .nojekyll serves files as-is
+    open(os.path.join(out, '.nojekyll'), 'w').close()
+    host = re.sub(r'^https?://', '', SITE_URL).strip('/')
+    if host:
+        open(os.path.join(out, 'CNAME'), 'w').write(host + '\n')
     manifest = []
     for p in PROJECTS:
         files = set([p['cover']] + p.get('intro_media', []) + [m for s in p['sections'] for m in s.get('media', []) if not m.startswith('vimeo:')])
         manifest += [{'url': CARGO + p['cargo'] + '/' + f, 'path': img_path(p, f)} for f in sorted(files)]
     json.dump(manifest, open(os.path.join(HERE, 'images.json'), 'w'), indent=1)
-    print(f'Built {len(pages)} pages into public/ ; {len(manifest)} images listed in images.json')
+    missing = sum(1 for m in manifest if not os.path.exists(os.path.join(out, m['path'])))
+    print(f'Built {len(pages)} pages into {OUT_DIR}/ ; {len(manifest)} images listed, {missing} not downloaded yet'
+          + (f' ; custom domain {host}' if host else ' ; no SITE_URL set'))
 
 if __name__ == '__main__':
     build()

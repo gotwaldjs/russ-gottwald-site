@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download Russ's original images from Cargo into public/images/.
+"""Download Russ's original images from Cargo into docs/images/.
 
 Run once from this folder:  python3 fetch_images.py
 Safe to re-run: files already downloaded are skipped.
@@ -11,7 +11,8 @@ items = json.load(open(os.path.join(here, 'images.json')))
 ok = skipped = 0
 failed = []
 for i, it in enumerate(items, 1):
-    dest = os.path.join(here, 'public', it['path'])
+    out = 'docs' if os.path.isdir(os.path.join(here, 'docs')) or not os.path.isdir(os.path.join(here, 'public')) else 'public'
+    dest = os.path.join(here, out, it['path'])
     if os.path.exists(dest) and os.path.getsize(dest) > 0:
         skipped += 1
         continue
