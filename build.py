@@ -18,20 +18,24 @@ LINKEDIN = 'https://www.linkedin.com/'
 LOCATION = '[City, State]'
 SITE_URL = ''
 SHOW_PROMPTS = True
+SHOW_DRAFTS = False   # True previews projects still waiting on material
+PORTRAIT = 'russ-4604.jpg'   # or 'russ-conventional.jpg' (both in docs/images/about/)
 try:
     from settings import *  # noqa: F401,F403
 except ImportError:
     pass
 OUT_DIR = 'docs'   # GitHub Pages publishes this folder
 CARGO = 'https://payload.cargocollective.com/1/18/592383/'
-ROLES = ['Strategy', 'Copywriting', 'Creative direction', 'Teaching']
 # A LinkedIn address without https:// would become a broken relative link.
 if LINKEDIN: LINKEDIN = 'https://' + re.sub(r'^\s*(?:[a-zA-Z]+:)?/*', '', LINKEDIN.strip())  # fixes 'hhttps://', missing scheme, etc.
 EMAIL = EMAIL.strip().removeprefix('mailto:')
 
 # ════════════════════════════════════════════════════════════════
 # CONTENT
-# media items: an image filename (from that project's Cargo folder) or 'vimeo:ID'
+# media items: an image filename (from that project's Cargo folder), 'other-folder/file' to borrow
+# another project's image, or 'vimeo:ID'
+# hidden=True: page still builds (old links keep working) but it is left out of the Work grid.
+# draft=True: waiting on material; built only when SHOW_DRAFTS is True.
 # ════════════════════════════════════════════════════════════════
 def seq(fmt, nums): return [fmt.format(n) for n in nums]
 
@@ -82,7 +86,7 @@ PROJECTS = [
        sections=[
          dict(h='Posters', media=['1-Tia.jpg', '2-Goalie.jpg', '3-Diet.jpg', 'DaleChicharron_POP-Branding_R2_V6.jpg']),
          dict(h='Social: recipe sharing', media=['Social3-Thai.jpg', 'Social1-GrilledCheese.jpg', 'Social2-Mac-Chicharron.jpg']),
-       ]),
+       ], hidden=True),
   dict(slug='big-lots', cargo='9404576', client='Big Lots!', title='Outdoor furniture for Latina shoppers', year='[Year]',
        agency='PACO Collective', kind='Consumer research', roles=['Strategy'],
        tags=['Strategy', 'Qual research', 'Quant research', 'Consumer journey'], cover='Slide1.png',
@@ -91,9 +95,9 @@ PROJECTS = [
   dict(slug='burger-bach', cargo='13961117', client='Burger Bach', title='Brand review before franchising', year='[Year]',
        agency='[Agency]', kind='Brand strategy', roles=['Strategy'], tags=['Strategy'], cover='BBRecsPres001.png',
        summary='Burger Bach, a Richmond restaurant serving New Zealand beach cuisine, wanted to take a look at their brand before expanding into new markets with franchises.',
-       sections=[dict(h='The review', media=[('BBRecsPres.008.png' if n == 8 else f'BBRecsPres{n:03d}.png') for n in range(1, 20)])]),
+       sections=[dict(h='The review', media=[('BBRecsPres.008.png' if n == 8 else f'BBRecsPres{n:03d}.png') for n in range(1, 20)])], hidden=True),
   dict(slug='usc-student-work', cargo='14488764', client='University of South Carolina', title='Student work, with awards',
-       year='2021–2024', agency='', kind='Instructor portfolio', roles=['Teaching', 'Creative direction', 'Strategy'],
+       year='2020–2024', agency='', kind='Instructor portfolio', roles=['Teaching', 'Creative direction', 'Strategy'],
        tags=['Creative direction', 'Strategy direction'], cover='CityLarge.jpg', prompts=False,
        summary='Here is some of the work my students have done; awards and accolades where noted.',
        sections=[
@@ -110,6 +114,14 @@ PROJECTS = [
          dict(h='Bose', p=['2021 Effie Collegiate Semifinalist. Creative executions on slides 12–14.',
                            'Logan Ingram, Katie Marino, Summer Shinn, and Sarah Turner'],
               media=seq('Group-3-Plansbook_Page_{:02d}.png', range(1, 19))),
+         # Formerly the separate "More student work" page
+         dict(h='Crocs', p=['Concept Development, Spring 2024.', 'Madison Enslow and Emily Gencarelli'],
+              media=seq('usc-more-student-work/Crocs-{}.jpg', [1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 16, 17, 18, 19, 21, 22, 32, 33, 34, 35, 28, 29, 30, 31, 42, 23, 47, 51, 57, 58, 59, 60])),
+         dict(h='Pop-Tarts', p=['Integrated Campaigns, Fall 2022.', 'Art direction: Trent King'], media=['usc-more-student-work/Screenshot-2023-10-23-at-11.33.02-AM.png']),
+         dict(h='Chuck E. Cheese’s', p=['Concept Development, Spring 2023.', 'Rosie Cline and Mallory Tingen'],
+              media=seq('usc-more-student-work/317-Chuck-E.-Cheese-Final_Page_{:02d}.png', [1, 3, 4, 5, 6, 7, 26])),
+         dict(h='Criterion', p=['Concept Development, Fall 2022.', 'Isabel Borja and Dan Zigelbaum'],
+              media=seq('usc-more-student-work/Slide{}.png', [1, 2, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 6])),
        ]),
   dict(slug='usc-more-student-work', cargo='14488885', client='University of South Carolina', title='More student work',
        year='2022–2024', agency='', kind='Instructor portfolio', roles=['Teaching', 'Creative direction', 'Strategy'],
@@ -123,7 +135,7 @@ PROJECTS = [
               media=seq('317-Chuck-E.-Cheese-Final_Page_{:02d}.png', [1, 3, 4, 5, 6, 7, 26])),
          dict(h='Criterion', p=['Concept Development, Fall 2022.', 'Isabel Borja and Dan Zigelbaum'],
               media=seq('Slide{}.png', [1, 2, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 6])),
-       ]),
+       ], hidden=True),
   dict(slug='second-showing', cargo='10199980', client='VCU Brandcenter', title='Second Showing', year='[Year]', agency='',
        kind='Brandcenter project', roles=['Strategy'], tags=['Strategy', 'Brandcenter'], cover='Second-Showing.001.jpg',
        summary='[One sentence on what Second Showing is and what your part was.]',
@@ -144,6 +156,10 @@ PROJECTS = [
          dict(h='Navy Pier: digital, Instagram, and OOH',
               media=seq('NavyPier_FunHappens_Digital_300x250_R1_F{}.jpg', range(1, 7)) +
                     ['NavyPier_FunHappens_Instagram_Kids_Mockup.png', 'NavyPier_FunHappens_Instagram_ShakespeareTheatre_Mockup.png', 'NavyPier_FunHappens_OOH_Image.png']),
+         dict(h='Cazo de Oro: “Dale chicharron.”', p=['Literally: “Give him the pork rind.” In Mexican slang: “Take him out.”',
+           'Using this expression in a mix of Spanish and Spanglish ties the Cazo de Oro brand to its roots while introducing it to today’s Southern California Latinos as the solution to life’s everyday frustrations.'],
+              media=seq('cazo-de-oro/{}', ['1-Tia.jpg', '2-Goalie.jpg', '3-Diet.jpg', 'DaleChicharron_POP-Branding_R2_V6.jpg'])),
+         dict(h='Cazo de Oro: social recipe sharing', media=seq('cazo-de-oro/{}', ['Social3-Thai.jpg', 'Social1-GrilledCheese.jpg', 'Social2-Mac-Chicharron.jpg'])),
          dict(h='The Smith & Wesson Model 29', p=['Just a thing I did when I heard Dirty Harry’s revolver was having its 60th birthday the same year as another American icon.'],
               media=['S-W29.003.jpg']),
        ]),
@@ -166,28 +182,106 @@ PROJECTS = [
            'Fade to end card.']),
          dict(h='The boards', p=['These boards reflect a straighter play on the Ad Council’s spot with Iron Eyes Cody; I’m wondering if a stop-motion visual style à la Burl Ives’ Rudolph might not be a better (i.e. more seasonal) fit.'],
               media=seq('{}.jpg', range(1, 7))),
-       ]),
+       ], hidden=True),  # Russ is reworking this with AI; unhide when the new version is in
+  # ── Waiting on material from Russ's earlier emails. Fill in, add images to docs/images/<slug>/, remove draft=True. ──
+  dict(slug='solo', cargo='', client='SOLO', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
+       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
+       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
+  dict(slug='white-sox', cargo='', client='Chicago White Sox', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
+       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
+       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
+  dict(slug='united-flea-markets', cargo='', client='United Flea Markets', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
+       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
+       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
+  dict(slug='shure', cargo='', client='Shure', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
+       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
+       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
+  dict(slug='rcn', cargo='', client='RCN', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
+       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
+       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
 ]
 
+# The order of the Work grid (Russ, Oct 2026). Projects not listed here are left out of the grid.
+WORK_ORDER = ['solo', 'white-sox', 'usc-student-work', 'united-flea-markets', 'shure', 'illinois-dhs', 'nipsco', 'rcn',
+              'big-lots', 'pork-and-mindys', 'second-showing', 'campaigns-that-might-have-been']
+
+# Timeline from Russ's resume (Sept 2026); descriptions from his role descriptions (Oct 2026).
+# Each entry: org, place, dates, roles [(title, dates)], body (paragraphs), lists {heading: [items]}
 RESUME = dict(
-  experience=[
-    dict(role='[Strategy Director]', org='[Agency], [City]', dates='[Year]–present', body='[What you owned and at what scale: clients, teams, budgets, outcomes.]'),
-    dict(role='[Title]', org='PACO Collective, [City]', dates='[Year]–[Year]', body='[Scope. Clients on the site from PACO include NIPSCO and Big Lots!]'),
-    dict(role='Associate Creative Director', org='[Agency], [City]', dates='[Year]–[Year]', body='[Teams led, accounts run, the work that came out of it.]'),
-    dict(role='Copywriter', org='[Agency], [City]', dates='[Year]–[Year]', body='[Brands written for and the work worth naming.]'),
+  highlights=[
+    ('Leadership and team management', [
+      'Leading integrated teams at all stages of campaign development',
+      'Focusing teams on cohesive output consistent with strategy',
+      'Mentoring junior colleagues and fostering a learning culture across the organization',
+      'Pitching campaign strategy and creative executions to internal stakeholders and existing and potential clients',
+      'Developing AI integration strategies and policies']),
+    ('Brand strategy and creative direction', [
+      'Applying strategic insights in the context of business objectives to determine client needs',
+      'Developing strategy to shape creative and media campaigns',
+      'Developing brand architecture, including promise, positioning, features, benefits, and audiences',
+      'Developing brand persona, tone, and voice',
+      'Developing creative concepts and executing them in fully integrated campaigns, packaging, internal branding, &c.',
+      'Ruthlessly enforcing use of the Oxford Comma']),
+    ('Research and research direction', [
+      'Assessing research needs based on business strategy and project objectives',
+      'Developing qualitative and quantitative research methodologies',
+      'Performing and directing primary and secondary research',
+      'Developing insights from analysis of research findings']),
   ],
-  teaching=[dict(role='[Instructor title]', org='University of South Carolina', dates='[2021]–[2024]',
-                 body='Courses include Concept Development and Integrated Campaigns. Student teams have been YoungOnes finalists, Effie Collegiate finalists and semifinalists, and Gold ADDY and Best in Show winners.')],
-  education=[dict(role='[Degree]', org='[School]', dates='[Year]')],
+  timeline=[
+    dict(org='PACO Collective', place='Chicago, IL', dates='2017–2026',
+         roles=[('Director of Brand Strategy', '2025–2026'), ('Associate Strategy Director/Copywriter', '2022–2025'),
+                ('Senior Brand Strategist/Copywriter', '2019–2022'), ('Account Planner/Copywriter', '2017–2018')],
+         body=['Brand strategy, including qualitative and quantitative research, brief drafting, client-facing liaison, KPI development, and creative direction; new business/RFP response; concept development; copywriting including TV, radio, OOH, social, paid search, websites, and blog posts; AI policy development; thought leadership; intern project direction.',
+               'Clients have included Amazon, SOLO, Chicago White Sox, Chicago Bears, Aetna, Blue Cross Blue Shield, BMO, Oportun, United Flea Markets, Shure, Illinois Department of Human Services, NIPSCO, Peoples Gas/North Shore Gas, ComEd, Baltimore Gas & Electric, RCN, Big Lots, Rumba Meats, Greater Chicago Food Depository, Crate & Barrel, Pork & Mindy’s, and more.']),
+    dict(org='Virginia Commonwealth University', place='Richmond, VA', dates='2025–present',
+         roles=[('Adjunct Professor, Advertising', '')],
+         lists={'Courses taught': ['MASC 481 – Completeness', 'MASC 399 – Empathy']}),
+    dict(org='Lanmark360', place='Richmond, VA', dates='2025',
+         roles=[('Freelance Copywriter', '')], body=['Concept development; copywriting.']),
+    dict(org='University of South Carolina', place='Columbia, SC', dates='2020–2024',
+         roles=[('Instructor, Advertising', '')],
+         lists={'Courses taught': ['JOUR 518/598 – NSAC Ad Team', 'JOUR 517 – Integrated Campaigns', 'JOUR 428 – Super Bowl Commercials',
+                                   'JOUR 317 – Art & Copy', 'JOUR 316 – Creative Concept Development', 'JOUR 291 – Writing for Mass Media'],
+                'My students’ accolades include': [
+                  '2025 AAF Midlands: Gold ADDY, OOH/Ambient Campaign – NotCo ‘Don’t Let History Repeat Itself’',
+                  '2024 YoungOnes: 2 finalists; 4 entries shortlisted',
+                  '2024 AAF National: Silver ADDY, OOH Campaign – Tampax ‘Wear the White’',
+                  '2024 AAF District 3: Gold ADDY, OOH Campaign and Best in Show – Tampax ‘Wear the White’',
+                  '2024 AAF Midlands: Gold ADDY, OOH Campaign and Best in Show – Tampax ‘Wear the White’',
+                  '2023 USC CreateAthon: Inaugural Karen Mallia Award for Utter Brilliance in Creative Strategy and Copywriting – City Year Columbia ‘We Were That Kid’',
+                  '2023 YoungOnes One Show: Shortlist, Print – Diablo IV ‘Our Hell Is Your Sanctuary’',
+                  '2023 NSAC District 3: Mosaic Award – Indeed ‘You Deserve Better’',
+                  '2023 AAF Midlands: Silver ADDY, Integrated Campaign – Best Buy ‘Gotcha Covered’',
+                  '2022 USC CreateAthon: Most Likely to Succeed – WJ Keenan Alumni Assn. ‘RaiderFest’',
+                  '2022 Effie Collegiate: Finalist – Pernod Ricard ‘Thee Tequila/Drip’',
+                  '2021 Effie Collegiate: Semifinalist – Bose ‘Escape into the Game’'],
+                'Other': ['Top 26 Career Influencer', 'Curriculum Committee 2022–2024', 'Faculty Senate 2022']}),
+    dict(org='Frankel Media Group', place='Gainesville, FL', dates='2017',
+         roles=[('Freelance Brand Strategist', '')],
+         body=['Target market research, including primary and secondary/qualitative and quantitative; positioning development; creative briefing; presentation of research findings to creatives and clients.']),
+    dict(org='Klöckner Pentaplast', place='Gordonsville, VA', dates='2016–2017',
+         roles=[('Branding & Presentation Consultant', '')],
+         body=['Developed presentations and sales materials for the Labels department, with focus on logic flow, design, and copy editing.']),
+    dict(org='Burger Bach', place='Richmond, VA', dates='2014–2015',
+         roles=[('Brand Consultant', '')],
+         body=['Refined brand identity and positioning for franchising efforts. Developed executions of identity including internal and external marketing.']),
+    dict(org='Decadence Cheesecakes', place='Richmond, VA', dates='2013–2014',
+         roles=[('VP, Strategic Planning & Marketing', '')],
+         body=['Refined brand positioning and architecture. Drafted business plan for capital campaign. Created consumer-facing brand identity assignment for VCU Brandcenter; co-instructed Brand Engagement class for duration of assignment. Developed retail launch plan.']),
+  ],
+  education=[
+    dict(org='VCU Brandcenter', place='Richmond, VA', dates='2011–2013', roles=[('M.S., Creative Brand Management', '')]),
+    dict(org='Hawaii Pacific University', place='Honolulu, HI', dates='2008–2010', roles=[('National Security & Strategic Studies', '')]),
+  ],
   recognition=['Silver Telly, Craft: Use of Humor, NIPSCO “Griller,” 2020',
                'Bronze Telly, Craft: Use of Humor, NIPSCO “Driver,” 2020',
                'Lürzer’s Archive, NIPSCO “Driver,” December 2019'],
-  skills='Brand strategy, copywriting, creative direction, qualitative and quantitative research, consumer journey mapping, teaching and mentoring',
 )
 
 ABOUT = [
-  'I’ve had to approach this business from a lot of angles. BUT: all of that has made me a better strategist and strategy director. Briefing a creative team and justifying to clients when and how to push the envelope of an assignment are different matters when one’s run a marathon or three in a copywriter’s or creative director’s shoes. And I doubt I’d have ever had to manage 47 integrated teams at once in an agency setting.',
-  'So I have a certain sympathy to…well, call it “counter-conventional wisdom”. For challenger audiences, not just challenger brands. For the rest of us who’ve zigged (zug?) when the world told us we were supposed to zag.',
+  'I’ve had to approach this business from a lot of angles. BUT: all of that has made me a better strategist, creative, leader, and instructor than I’d ever have been otherwise. Briefing a creative team and justifying to clients why pushing the creative envelope is actually the safe option are different matters when one’s run a marathon or three in another discipline’s shoes. And I doubt I’d have ever had to manage 47 integrated teams at once in an agency setting.',
+  'Having to explain how things work to people with no experience makes questioning one’s assumptions second nature, so I have a certain sympathy to…well, call it “counter-conventional wisdom”. For challenger audiences, not just challenger brands. For the rest of us who’ve zigged (zug?) when the world told us we were supposed to zag.',
   'Can I get my hands dirty? You bet. I’ll do it with glee. But I’ll also make your team and their work sharper. And I’ll help your clients solve the problems that keep them awake at night – the ones that conventional approaches failed to work on.',
 ]
 
@@ -212,7 +306,7 @@ def page(path, title, desc, body, nav, scripts=(), og_image=None):
             '<meta property="og:type" content="website">']
     if canon: meta += [f'<link rel="canonical" href="{E(canon)}">', f'<meta property="og:url" content="{E(canon)}">']
     if SITE_URL and og_image: meta.append(f'<meta property="og:image" content="{E(SITE_URL + "/" + og_image)}">')
-    links = [('Work', 'index.html', 'home'), ('About', 'about/index.html', 'about'), ('Resume', 'resume/index.html', 'resume')]
+    links = [('Work', 'work/index.html', 'work'), ('About', 'about/index.html', 'about'), ('Resume', 'resume/index.html', 'resume')]
     cur = ' aria-current="page"'
     navhtml = ''.join('<a href="%s%s"%s>%s</a>' % (r, h, cur if k == nav else '', l) for l, h, k in links)
     js = ''.join(f'<script src="{r}assets/{s}" defer></script>' for s in (('site.js',) + tuple(x for x in scripts if x != 'site.js')))
@@ -251,7 +345,10 @@ def page(path, title, desc, body, nav, scripts=(), og_image=None):
 </html>
 '''
 
-def img_path(p, f): return f'images/{p["slug"]}/{f}'
+def img_path(p, f): return f'images/{f}' if '/' in f else f'images/{p["slug"]}/{f}'
+
+def live(p): return SHOW_DRAFTS or not p.get('draft')
+def grid(): return [p for slug in WORK_ORDER for p in PROJECTS if p['slug'] == slug and live(p)]
 
 def media_block(p, items, r, label):
     out, imgs = [], [m for m in items if not m.startswith('vimeo:')]
@@ -268,9 +365,10 @@ def media_block(p, items, r, label):
             out.append(f'<div class="shots{" two" if n > 1 else ""}">{"".join(tags)}</div>')
     return ''.join(out)
 
-def project_page(p, i):
+def project_page(p):
     r = '../../'
-    nxt = PROJECTS[(i + 1) % len(PROJECTS)]
+    g = grid()
+    nxt = g[(g.index(p) + 1) % len(g)] if p in g else g[0]
     prompts = SHOW_PROMPTS and p.get('prompts', True)
     show = lambda v: v or prompts
     paras = lambda a: ''.join(f'<p>{T(x)}</p>' for x in (a or []))
@@ -292,7 +390,7 @@ def project_page(p, i):
     cred = '<div class="stem prose"><h2>Credits</h2><dl class="credits">' + ''.join('<dt>%s</dt><dd>%s</dd>' % (T(a), T(b)) for a, b in credits) + '</dl></div>' if show(p.get('credits')) else ''
     factsh = ''.join('<div><dt>%s</dt><dd>%s</dd></div>' % (E(k), T(v)) for k, v in facts)
     body = f'''<article>
-  <div class="stem"><a class="back" href="{r}index.html">Back to all work</a></div>
+  <div class="stem"><a class="back" href="{r}work/index.html">Back to all work</a></div>
   <header class="stem p-head">
     <p class="p-client">{T(p["client"])}</p>
     <h1>{E(p["title"])}</h1>
@@ -309,42 +407,53 @@ def project_page(p, i):
   </div>
   <nav class="stem next" aria-label="Next project"><a href="{r}work/{nxt["slug"]}/index.html"><span class="lbl">Next project</span><span class="ttl">{E(nxt["title"])}</span></a></nav>
 </article>'''
-    return page(f'work/{p["slug"]}/index.html', f'{plain(p["title"])} | {NAME}', plain(p['summary']) or plain(p['title']), body, 'home',
+    return page(f'work/{p["slug"]}/index.html', f'{plain(p["title"]) or plain(p["client"])} | {NAME}', plain(p['summary']) or plain(p['title']), body, 'work',
                 og_image=img_path(p, p['cover']) if p.get('cover') else None)
 
+LEDE = 'Strategist, copywriter, creative director and teacher. I make teams and their work sharper, and help clients solve the problems conventional approaches haven’t.'
+
 def home():
-    hero_markup = open(os.path.join(HERE, 'src', 'hero.html')).read()
-    cards = ''.join(f'''<li class="work-item{" feature" if i == 0 else ""}" data-roles="{E("|".join(p["roles"]))}">
-  <a href="work/{p["slug"]}/index.html">
-    <div class="cover"><img src="{img_path(p, p["cover"])}" alt="" loading="{"eager" if i < 3 else "lazy"}" decoding="async"></div>
-    <p class="client">{E(p["client"])}</p>
-    <h3>{E(p["title"])}</h3>
-    <p class="kind">{E(p["kind"])}. {E(", ".join(p["roles"]))}.</p>
-  </a>
-</li>''' for i, p in enumerate(PROJECTS))
-    filt = ''.join(f'<button type="button" data-role="{E(r) if i else ""}" aria-pressed="{"true" if i == 0 else "false"}">{E(r)}</button>' for i, r in enumerate(['All work'] + ROLES))
-    body = f'''<h1 class="sr">{E(NAME)}: strategist, copywriter, associate creative director, and teacher.</h1>
+    hero_markup = open(os.path.join(HERE, 'src', 'hero.html')).read().replace('{{LEDE}}', E(LEDE))
+    doors = [('work/index.html', 'Selected work', 'Campaigns, research, and brand work for clients from NIPSCO to the Illinois Department of Human Services, plus my students’ award-winners.'),
+             ('about/index.html', 'About me', 'Why a career that wasn’t hyper-specialized turned out to be the point.'),
+             ('resume/index.html', 'Resume', 'Agency, classroom, and consulting, from 2013 to now.')]
+    doorhtml = ''.join(f'<li><a href="{h}"><span class="d-ttl">{E(t)}</span><span class="d-sub">{E(d)}</span></a></li>' for h, t, d in doors)
+    body = f'''<h1 class="sr">{E(NAME)}: strategist, copywriter, creative director, and teacher.</h1>
 {hero_markup}
-<div class="stem intro center">
-  <p class="lede">Strategist, copywriter, creative director and teacher. I make teams and their work sharper, and help clients solve the problems conventional approaches haven’t.</p>
-  <p class="intro-links"><a class="btn" href="about/index.html">About me</a><a class="btn" href="resume/index.html">Resume</a></p>
-</div>
-<section class="wide" aria-labelledby="work-h">
-  <div class="work-head">
-    <h2 id="work-h">Selected work</h2>
-    <p class="note">I can’t show you everything here: current clients aren’t too keen on sharing a ton of details on websites. But I’ll be happy to discuss broad outlines, methodologies, and results.</p>
-    <div class="filters" id="filters" role="group" aria-label="Filter work by role">{filt}</div>
-  </div>
-  <ul class="work-list" id="work-list">{cards}</ul>
-  <p class="empty" id="work-empty" hidden>No projects tagged with this role yet.</p>
-  <p class="sr" id="filter-status" aria-live="polite"></p>
+<div class="stem intro center lede-mobile"><p class="lede">{E(LEDE)}</p></div>
+<nav class="wide doors" aria-label="Explore"><ul>{doorhtml}</ul></nav>'''
+    return page('index.html', NAME, plain(LEDE), body, 'home',
+                scripts=('site.js', 'hero.js'), og_image=img_path(grid()[0], grid()[0]['cover']) if grid()[0].get('cover') else None)
+
+def cover_html(p, r, eager):
+    if not p.get('cover'): return '<div class="cover"><div class="ph" style="height:100%"><span>Image to come</span></div></div>'
+    return f'<div class="cover"><img src="{r}{img_path(p, p["cover"])}" alt="" loading="{"eager" if eager else "lazy"}" decoding="async"></div>'
+
+def work():
+    r = '../'
+    items = grid()
+    cards = ''.join(f'''<li class="work-item">
+  <a href="{p["slug"]}/index.html">
+    {cover_html(p, r, i < 4)}
+    <p class="client">{E(p["client"])}</p>
+    <h2>{T(p["title"])}</h2>
+    <p class="kind">{T(p["kind"])}</p>
+  </a>
+</li>''' for i, p in enumerate(items))
+    body = f'''<header class="wide work-head">
+  <h1>Selected work</h1>
+  <p class="note">I can’t show you everything here: some clients aren’t too keen on sharing a ton of details on websites. But I’ll be happy to discuss broad outlines, methodologies, and results of additional projects.</p>
+</header>
+<section class="wide" aria-label="Projects">
+  <ul class="work-list">{cards}</ul>
 </section>'''
-    return page('index.html', NAME, 'Strategist, copywriter, associate creative director, and teacher.', body, 'home',
-                scripts=('site.js', 'hero.js'), og_image=img_path(PROJECTS[0], PROJECTS[0]['cover']))
+    first = next((p for p in items if p.get('cover')), None)
+    return page('work/index.html', f'Work | {NAME}', 'Selected work by Russ Gottwald: strategy, copywriting, creative direction, and teaching.', body, 'work',
+                og_image=img_path(first, first['cover']) if first else None)
 
 def about():
     body = f'''<header class="stem page-head center">
-  <div class="portrait"><div class="ph" style="aspect-ratio:4/5"><span>Portrait, 4:5</span></div></div>
+  <div class="portrait"><img src="../images/about/{E(PORTRAIT)}" alt="Russ Gottwald" width="1000" height="1250"></div>
   <h1>We’re all supposed to be <span style="white-space:nowrap">hyper-specialized</span> these days.</h1>
   <p class="sub">My career didn’t turn out that way, and I’m grateful for it.</p>
 </header>
@@ -357,9 +466,12 @@ def about():
 
 def resume():
     def entry(e):
-        b = f'<p class="r-body">{T(e["body"])}</p>' if e.get('body') else ''
-        return f'<div class="r-entry"><div class="r-dates">{T(e["dates"])}</div><div><h3>{T(e["role"])}</h3><p class="r-org">{T(e["org"])}</p>{b}</div></div>'
+        roles = ''.join(f'<h3>{T(t)}{f" <span class=r-sub>{T(d)}</span>" if d else ""}</h3>' for t, d in e['roles'])
+        body = ''.join(f'<p class="r-body">{T(x)}</p>' for x in e.get('body', []))
+        lists = ''.join(f'<p class="r-lh">{E(h)}</p><ul class="r-list">{"".join(f"<li>{T(x)}</li>" for x in xs)}</ul>' for h, xs in e.get('lists', {}).items())
+        return f'<div class="r-entry"><div class="r-dates">{T(e["dates"])}</div><div><p class="r-org">{T(e["org"])} <span class="r-place">{T(e["place"])}</span></p>{roles}{body}{lists}</div></div>'
     R = RESUME
+    hl = ''.join(f'<div class="r-hl"><h3>{E(h)}</h3><ul class="r-list">{"".join(f"<li>{E(x)}</li>" for x in xs)}</ul></div>' for h, xs in R['highlights'])
     body = f'''<header class="stem r-head">
   <h1>{E(NAME)}</h1>
   <p class="sub">Strategy, copywriting, creative direction, teaching</p>
@@ -367,11 +479,10 @@ def resume():
   <button class="btn no-print" type="button" id="print">Print or save as PDF</button>
 </header>
 <div class="stem resume">
-  <section class="r-sec"><h2>Experience</h2>{''.join(map(entry, R["experience"]))}</section>
-  <section class="r-sec"><h2>Teaching</h2>{''.join(map(entry, R["teaching"]))}</section>
+  <section class="r-sec"><h2>Timeline</h2>{''.join(map(entry, R["timeline"]))}</section>
   <section class="r-sec"><h2>Education</h2>{''.join(map(entry, R["education"]))}</section>
+  <section class="r-sec"><h2>Experience highlights</h2><div class="r-hls">{hl}</div></section>
   <section class="r-sec"><h2>Recognition</h2><ul class="r-list">{''.join(f'<li>{T(x)}</li>' for x in R["recognition"])}</ul></section>
-  <section class="r-sec"><h2>Skills</h2><p style="margin:0">{T(R["skills"])}</p></section>
 </div>'''
     return page('resume/index.html', f'Resume | {NAME}', f'Resume of {NAME}: strategy, copywriting, creative direction, teaching.', body, 'resume', scripts=('site.js',))
 
@@ -402,8 +513,9 @@ def build():
         shutil.rmtree(pth) if os.path.isdir(pth) else os.remove(pth)
     os.makedirs(os.path.join(out, 'assets'), exist_ok=True)
     for f in ('site.css', 'site.js', 'hero.js'): shutil.copy(os.path.join(HERE, 'src', f), os.path.join(out, 'assets', f))
-    pages = {'index.html': home(), 'about/index.html': about(), 'resume/index.html': resume()}
-    for i, p in enumerate(PROJECTS): pages[f'work/{p["slug"]}/index.html'] = project_page(p, i)
+    pages = {'index.html': home(), 'work/index.html': work(), 'about/index.html': about(), 'resume/index.html': resume()}
+    for p in PROJECTS:
+        if live(p): pages[f'work/{p["slug"]}/index.html'] = project_page(p)
     for path, htm in pages.items():
         full = os.path.join(out, path); os.makedirs(os.path.dirname(full), exist_ok=True)
         open(full, 'w', encoding='utf-8').write(htm)
@@ -414,8 +526,9 @@ def build():
         open(os.path.join(out, 'CNAME'), 'w').write(host + '\n')
     manifest = []
     for p in PROJECTS:
+        if not p.get('cargo'): continue  # new projects: images go straight into docs/images/<slug>/
         files = set([p['cover']] + p.get('intro_media', []) + [m for s in p['sections'] for m in s.get('media', []) if not m.startswith('vimeo:')])
-        manifest += [{'url': CARGO + p['cargo'] + '/' + f, 'path': img_path(p, f)} for f in sorted(files)]
+        manifest += [{'url': CARGO + p['cargo'] + '/' + f, 'path': img_path(p, f)} for f in sorted(files) if f and '/' not in f]
     json.dump(manifest, open(os.path.join(HERE, 'images.json'), 'w'), indent=1)
     missing = sum(1 for m in manifest if not os.path.exists(os.path.join(out, m['path'])))
     print(f'Built {len(pages)} pages into {OUT_DIR}/ ; {len(manifest)} images listed, {missing} not downloaded yet'

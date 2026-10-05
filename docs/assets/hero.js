@@ -1,12 +1,12 @@
 (function(){
 const L = 18000;
 const BEATS = [
-  {t0:0,     t1:3000,  step:-1, words:[["Strategist."],["Writer."],["Creative"],["lead."],["Teacher.",1]]},
+  {t0:0,     t1:3000,  step:-1, words:[["Strategist."],["Writer."],["/"],["Creative"],["lead."],["Teacher.",1]]},
   {t0:3000,  t1:5900,  step:0,  words:[["Start"],["with"],["why.",1]]},
-  {t0:5900,  t1:9200,  step:1,  words:[["Go"],["deep",1],["on"],["the"],["words."]]},
+  {t0:5900,  t1:9200,  step:1,  words:[["Go"],["deep",1],["on"],["/"],["the"],["words."]]},
   {t0:9200,  t1:12000, step:2,  words:[["Lead"],["the"],["work.",1]]},
-  {t0:12000, t1:14800, step:3,  words:[["Build"],["the"],["next",1],["ones."]]},
-  {t0:14800, t1:18000, step:-1, words:[["Range"],["across"],["the"],["room."],["Depth",1],["where",1],["it",1],["counts.",1]]}
+  {t0:12000, t1:14800, step:3,  words:[["Train"],["tomorrow’s",1],["/"],["teams."]]},
+  {t0:14800, t1:18000, step:-1, words:[["Range"],["across"],["the"],["room."],["/"],["Depth",1],["where",1],["it",1],["counts.",1]]}
 ];
 
 const clamp = v => Math.max(0, Math.min(1, v));
@@ -243,8 +243,8 @@ function render(t){
 const copy = document.getElementById('copy');
 const lines = BEATS.map(b => {
   const e = document.createElement('div'); e.className = 'line';
-  b.words.forEach(([w, em]) => { const s = document.createElement('span'); s.className = 'w'; if (em){ s.classList.add('em'); s.innerHTML = `<span class="s">${w}</span><span class="i">${w}</span>`; } else s.textContent = w; e.appendChild(s); });
-  copy.appendChild(e); return {e, words:[...e.children], b};
+  b.words.forEach(([w, em]) => { if (w === '/'){ e.appendChild(document.createElement('br')); return; } const s = document.createElement('span'); s.className = 'w'; if (em){ s.classList.add('em'); s.innerHTML = `<span class="s">${w}</span><span class="i">${w}</span>`; } else s.textContent = w; e.appendChild(s); });
+  copy.appendChild(e); return {e, words:[...e.querySelectorAll('.w')], b};
 });
 function measureEm(){ document.querySelectorAll('.copy .em').forEach(w => { w.style.width = ''; w._ws = w.firstChild.offsetWidth; w._wi = w.lastChild.offsetWidth; }); }
 function drawCopy(t){
