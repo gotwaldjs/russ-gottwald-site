@@ -183,22 +183,51 @@ PROJECTS = [
          dict(h='The boards', p=['These boards reflect a straighter play on the Ad Council’s spot with Iron Eyes Cody; I’m wondering if a stop-motion visual style à la Burl Ives’ Rudolph might not be a better (i.e. more seasonal) fit.'],
               media=seq('{}.jpg', range(1, 7))),
        ], hidden=True),  # Russ is reworking this with AI; unhide when the new version is in
-  # ── Waiting on material from Russ's earlier emails. Fill in, add images to docs/images/<slug>/, remove draft=True. ──
-  dict(slug='solo', cargo='', client='SOLO', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
-       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
-       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
-  dict(slug='white-sox', cargo='', client='Chicago White Sox', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
-       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
-       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
-  dict(slug='united-flea-markets', cargo='', client='United Flea Markets', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
-       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
-       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
-  dict(slug='shure', cargo='', client='Shure', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
-       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
-       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
-  dict(slug='rcn', cargo='', client='RCN', title='[Project title]', year='[Year]', agency='PACO Collective', kind='[Type of work]',
-       roles=['Strategy', 'Copywriting'], tags=['[Disciplines]'], cover='', summary='[One or two sentences on the problem and what we did.]',
-       sections=[dict(h='[Section]', placeholder='Images and video to come')], draft=True),
+  # ── New projects (copy from Russ's "Portfolio Things" email, Sept 2026). Titles and years are first guesses for Russ to confirm. ──
+  # SOLO's enhanced product music video (102 MB, over GitHub's file limit) needs a Vimeo upload; add it as 'vimeo:ID' when it has one.
+  dict(slug='solo', cargo='', client='SOLO', title='“Empieza lo bueno.”', year='2026', agency='PACO Collective', kind='Test campaign',
+       roles=['Strategy'], tags=['Strategy development', 'Strategy direction'], cover='Freezer-cling-mockup.jpg',
+       summary='SOLO wanted to conduct a test campaign aimed at gaining Latino customers.',
+       sections=[
+         dict(h='The insight', p=['SOLO’s unique place within American party culture (there are songs about the red cup in genres ranging from country to hip-hop) combines with Latino social and party habits to allow a unique opportunity to reach a bicultural audience.']),
+         dict(h='The answer', p=['“Empieza lo bueno” makes a simple claim: if you see SOLO cups, you know the party’s gonna be good.'],
+              media=['Freezer-cling-mockup.jpg']),
+       ]),
+  dict(slug='white-sox', cargo='', client='Chicago White Sox', title='Fan insights and heritage nights', year='2025–2026', agency='PACO Collective',
+       kind='Cultural consulting', roles=['Strategy', 'Creative direction'],
+       tags=['Cultural consulting', 'Strategy direction', 'Creative direction', 'Survey analysis'], cover='2025-CWS-t-shirts.jpg',
+       summary='The Sox sought general fanbase insights, particularly among their Latino fanbase.',
+       intro=['They also asked for input on events and promotions such as AAPI Month, Hispanic, Mexican, and Hispanic Heritage games and merch, and celebrating America’s 250th anniversary.', 'Above: Mexican Heritage Night merch, 2025.'],
+       sections=[
+         dict(h='The answer', p=['Information from Qualtrics survey data as well as insights about cultural eddies and nuances (both within Chicago’s ethnic communities and neighborhoods as well as legacy info from cultures of origin) helped the Sox achieve record turnouts for Heritage Night games, fan embrace of social media efforts, and further development of ticketing and other initiatives.']),
+         dict(h='America 250', media=['CWS-America-250-Want-You.jpg', 'CWS-America-250-Bonds.jpg', 'CWS-America-250-Rosie.jpg', 'CWS-America-250-Defend.jpg']),
+       ]),
+  dict(slug='united-flea-markets', cargo='', client='United Flea Markets', title='Why people really go to the flea market', year='2021', agency='PACO Collective',
+       kind='Research and positioning', roles=['Strategy'], tags=['Strategy development', 'Qual research', 'Segmentation'], cover='UFMStrategyExcerpts.001.png',
+       summary='UFM sought help positioning their market network for a post-COVID rebound in both vendor presence and shopper visitation.',
+       sections=[
+         dict(h='The insight', p=['Longitudinal research into vendor and shopper psychographics revealed a distinct typology that informed segmentation of both groups – and that interaction with customers, not simply making money or getting rid of excess stuff, was the primary motivator for the most numerous and reliable vendor groups.']),
+         dict(h='The answer', p=['A campaign that addressed the non-cost-related motivators that drove an actual majority of flea market vendors and shoppers alike.'],
+              media=seq('UFMStrategyExcerpts.{:03d}.png', range(1, 21))),
+       ]),
+  dict(slug='shure', cargo='', client='Shure', title='Inclusive marketing playbook', year='2022', agency='PACO Collective',
+       kind='Process playbook', roles=['Strategy', 'Copywriting'],
+       tags=['Procedural analysis', 'Cultural adaptation', 'Copywriting', 'Client seminars'], cover='Shure_1.jpg',
+       summary='Shure wanted to fit inclusivity into their global campaign development process.',
+       sections=[
+         dict(h='The insight', p=['This didn’t just require consideration of their brand value and development process from beginning to end; it meant understanding exactly what “inclusivity” meant in specific regional and cultural contexts – an approach based solely on American understandings and perspectives would go nowhere.']),
+         dict(h='The answer', p=['Our playbook didn’t just explain how inclusivity worked; we seamlessly integrated it within each step of Shure’s process.'],
+              media=seq('Shure_{}.jpg', [1, 5, 8, 13, 15, 25])),
+       ]),
+  dict(slug='rcn', cargo='', client='RCN', title='A new customer segmentation', year='2019', agency='PACO Collective',
+       kind='Segmentation strategy', roles=['Strategy'], tags=['Strategy development', 'Segmentation', 'Quant research'],
+       cover='RCN_NewSegmentation.003.png',
+       summary='RCN wanted help with a new marketing campaign in the Chicago area.',
+       sections=[
+         dict(h='The insight', p=['The existing segmentation, based on life stages, didn’t address why RCN’s offerings might be of interest to potential target audiences.']),
+         dict(h='The answer', p=['A new segmentation based on different service needs led to more relevant messaging.'],
+              media=seq('RCN_NewSegmentation.{:03d}.png', range(1, 19))),
+       ]),
 ]
 
 # The order of the Work grid (Russ, Oct 2026). Projects not listed here are left out of the grid.
