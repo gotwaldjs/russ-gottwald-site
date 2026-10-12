@@ -37,6 +37,10 @@ EMAIL = EMAIL.strip().removeprefix('mailto:')
 # card: name before the colon in the Work grid headline (defaults to client)
 # hidden=True: page still builds (old links keep working) but it is left out of the Work grid.
 # draft=True: waiting on material; built only when SHOW_DRAFTS is True.
+# groups=[dict(media=[...], label='...', deck=True), ...] in a section: image groups shown in order above that
+#   section's media; label adds a line above the group, deck=True makes it a sideways carousel at any size.
+# sub=True in a section: its heading is a smaller sub-heading under the section before it.
+# hero=False: no large image at the top of the page; cover is still the Work grid card and share image.
 # ════════════════════════════════════════════════════════════════
 def seq(fmt, nums): return [fmt.format(n) for n in nums]
 
@@ -143,20 +147,23 @@ PROJECTS = [
        sections=[dict(h='The deck', media=seq('Second-Showing.{:03d}.jpg', range(1, 16))),
                  dict(h='The film', media=['vimeo:51654614'])]),
   dict(slug='campaigns-that-might-have-been', cargo='10199864', client='Spec work', card='Spec Work', title='Campaigns that Might Have Been…but Never Were',
-       year='[Year]', agency='', kind='Spec campaigns', roles=['Copywriting'], tags=['Copywriting', 'Art direction'],
-       cover='NavyPier_FunHappens_OOH_Image.png', summary='[One line on why these exist.]',
+       year='Varies', agency='', kind='Spec campaigns', roles=['Copywriting'], tags=['Copywriting', 'Art direction'],
+       cover='NavyPier_FunHappens_OOH_Image.png', hero=False, summary='',
        sections=[
-         dict(h='CPS Energy: Find the Power', media=seq('-CPS{}.png', [1, 2, 3, 4])),
          dict(h='Navy Pier: Don’t Plan', p=[
-           'Radio, “On the Clock”',
+           '**Radio :30, “On the Clock”**',
            'VINCE VAUGHN: I tell folks I’m going to Navy Pier, first thing they do is ask what I have planned. Like I wanna plan things when there’s a cornucopia of options around me.',
            'I’m Vince Vaughn. I live in the real world my dude, with work, with schedules: be here, be there, be on time, don’t be late, don’t miss your appointments. I get paid to live on a schedule, this is my time.',
            'So I’m gonna follow where fate leads me. Food, music, plays, art, tours, or maybe just a spectacular view of this beautiful town…it’s all up to that fickle lady’s fancy.',
            'I don’t wanna make plans. So I go somewhere I don’t have to.',
            'VO: Don’t plan your trip to Navy Pier.']),
-         dict(h='Navy Pier: digital, Instagram, and OOH',
-              media=seq('NavyPier_FunHappens_Digital_300x250_R1_F{}.jpg', range(1, 7)) +
-                    ['NavyPier_FunHappens_Instagram_Kids_Mockup.png', 'NavyPier_FunHappens_Instagram_ShakespeareTheatre_Mockup.png', 'NavyPier_FunHappens_OOH_Image.png']),
+         dict(h='OOH', sub=True,
+              groups=[dict(media=['NavyPier_FunHappens_OOH_Image.png']),
+                      dict(label='Digital (animated GIF)', deck=True,
+                           media=seq('NavyPier_FunHappens_Digital_300x250_R1_F{}.jpg', range(1, 7))),
+                      dict(label='Instagram',
+                           media=['NavyPier_FunHappens_Instagram_Kids_Mockup.png', 'NavyPier_FunHappens_Instagram_ShakespeareTheatre_Mockup.png'])]),
+         dict(h='CPS Energy: Find the Power', media=seq('-CPS{}.png', [1, 2, 3, 4])),
          dict(h='Cazo de Oro: “Dale chicharron.”', p=['Literally: “Give him the pork rind.” In Mexican slang: “Take him out.”',
            'Using this expression in a mix of Spanish and Spanglish ties the Cazo de Oro brand to its roots while introducing it to today’s Southern California Latinos as the solution to life’s everyday frustrations.'],
               media=seq('cazo-de-oro/{}', ['1-Tia.jpg', '2-Goalie.jpg', '3-Diet.jpg', 'DaleChicharron_POP-Branding_R2_V6.jpg'])),
@@ -321,8 +328,9 @@ ABOUT = [
 E = lambda s: html.escape(str(s), quote=True)
 def T(s):
     s = str(s)
-    return f'<span class="placeholder">{E(s)}</span>' if re.fullmatch(r'\[.*\]', s.strip()) else E(s)
-def plain(s): return re.sub(r'\s+', ' ', re.sub(r'\[.*?\]', '', str(s))).strip()
+    if re.fullmatch(r'\[.*\]', s.strip()): return f'<span class="placeholder">{E(s)}</span>'
+    return re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', E(s))   # **text** is bold
+def plain(s): return re.sub(r'\s+', ' ', re.sub(r'\[.*?\]|\*\*', '', str(s))).strip()
 
 T_MARK = '<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="2" width="18" height="4" fill="#ffb300"/><rect x="8" y="2" width="4" height="16" fill="#ffb300"/></svg>'
 
@@ -380,7 +388,7 @@ def img_path(p, f): return f'images/{f}' if '/' in f else f'images/{p["slug"]}/{
 def live(p): return SHOW_DRAFTS or not p.get('draft')
 def grid(): return [p for slug in WORK_ORDER for p in PROJECTS if p['slug'] == slug and live(p)]
 
-def media_block(p, items, r, label):
+def media_block(p, items, r, label, deck=False):
     out, imgs = [], [m for m in items if not m.startswith('vimeo:')]
     for m in items:
         if m.startswith('vimeo:'):
@@ -389,11 +397,15 @@ def media_block(p, items, r, label):
     if imgs:
         n = len(imgs)
         tags = [f'<img src="{r}{img_path(p, f)}" alt="{E(label)}, image {i + 1} of {n}" loading="lazy" decoding="async">' for i, f in enumerate(imgs)]
-        if n > 6:
+        if n > 6 or (deck and n > 1):
             out.append(f'<div class="deck" tabindex="0" role="region" aria-label="{E(label)}, {n} images, scrolls sideways">{"".join(tags)}</div><p class="deck-hint">{n} images. Scroll sideways.</p>')
         else:
             out.append(f'<div class="shots{" two" if n > 1 else ""}">{"".join(tags)}</div>')
     return ''.join(out)
+
+def group_block(p, g, r, label):
+    head = '<p class="media-label">' + T(g['label']) + '</p>' if g.get('label') else ''
+    return head + media_block(p, g['media'], r, g.get('label') or label, g.get('deck', False))
 
 def project_page(p):
     r = '../../'
@@ -406,10 +418,11 @@ def project_page(p):
     hero = f'<img src="{r}{img_path(p, p["cover"])}" alt="{E(p["title"])}">' if p.get('cover') else '<div class="ph" style="aspect-ratio:16/9"><span>Hero image, 16:9</span></div>'
     secs = []
     for s in p['sections']:
-        m = media_block(p, s.get('media', []), r, s['h'])
+        m = ''.join(group_block(p, g, r, s['h']) for g in s.get('groups', [])) + media_block(p, s.get('media', []), r, s['h'])
         if s.get('placeholder'): m = f'<div class="ph" style="aspect-ratio:16/9"><span>{E(s["placeholder"])}</span></div>'
         wide = '<div class="wide">' + m + '</div>' if m else ''
-        secs.append('<div class="sec"><div class="stem prose"><h2>' + E(s['h']) + '</h2>' + paras(s.get('p')) + '</div>' + wide + '</div>')
+        hx = 'h3' if s.get('sub') else 'h2'
+        secs.append(f'<div class="sec"><div class="stem prose"><{hx}>' + E(s['h']) + f'</{hx}>' + paras(s.get('p')) + '</div>' + wide + '</div>')
     credits = p.get('credits') or [('[Role]', '[Name]'), ('[Role]', '[Name]')]
     intro = ''
     if p.get('intro'):
@@ -419,14 +432,16 @@ def project_page(p):
     result = '<div class="stem prose"><h2>What happened</h2><p>' + T(p.get('result') or '[What happened. A number if you have one; recognition and what the client did next count too.]') + '</p></div>' if show(p.get('result')) else ''
     cred = '<div class="stem prose"><h2>Credits</h2><dl class="credits">' + ''.join('<dt>%s</dt><dd>%s</dd>' % (T(a), T(b)) for a, b in credits) + '</dl></div>' if show(p.get('credits')) else ''
     factsh = ''.join('<div><dt>%s</dt><dd>%s</dd></div>' % (E(k), T(v)) for k, v in facts)
+    sumh = '<p class="p-sum">' + T(p['summary']) + '</p>' if p['summary'] else ''
+    heroh = '<div class="wide p-hero">' + hero + '</div>' if p.get('hero', True) else ''
     body = f'''<article>
   <div class="stem"><a class="back" href="{r}work/index.html">Back to all work</a></div>
   <header class="stem p-head">
     <p class="p-client">{T(p["client"])}</p>
     <h1>{E(p["title"])}</h1>
-    <p class="p-sum">{T(p["summary"])}</p>
+    {sumh}
   </header>
-  <div class="wide p-hero">{hero}</div>
+  {heroh}
   <div class="wide"><dl class="t-bar facts" style="--n:{len(facts)}">{factsh}</dl></div>
   <div class="p-body">
     {intro}
@@ -555,7 +570,7 @@ def build():
     manifest = []
     for p in PROJECTS:
         if not p.get('cargo'): continue  # new projects: images go straight into docs/images/<slug>/
-        files = set([p['cover']] + p.get('intro_media', []) + [m for s in p['sections'] for m in s.get('media', []) if not m.startswith('vimeo:')])
+        files = set([p['cover']] + p.get('intro_media', []) + [m for s in p['sections'] for m in [x for g in s.get('groups', []) for x in g['media']] + s.get('media', []) if not m.startswith('vimeo:')])
         manifest += [{'url': CARGO + p['cargo'] + '/' + f, 'path': img_path(p, f)} for f in sorted(files) if f and '/' not in f]
     json.dump(manifest, open(os.path.join(HERE, 'images.json'), 'w'), indent=1)
     missing = sum(1 for m in manifest if not os.path.exists(os.path.join(out, m['path'])))
