@@ -205,7 +205,7 @@ PROJECTS = [
        kind='Cultural consulting', roles=['Strategy', 'Creative direction'],
        tags=['Cultural consulting', 'Strategy direction', 'Creative direction', 'Survey analysis'], cover='2025-CWS-t-shirts.jpg', hero=False,
        summary='The Sox sought general fanbase insights, particularly among their Latino fanbase.',
-       intro=['They also asked for input on events and promotions such as AAPI Month, Hispanic, Mexican, and Hispanic Heritage games and merch, and celebrating America’s 250th anniversary.', 'Above: Mexican Heritage Night merch, 2025.'],
+       intro=['They also asked for input on events and promotions such as AAPI Month, Hispanic, Mexican, and Hispanic Heritage games and merch, and celebrating America’s 250th anniversary.'],
        sections=[
          dict(h='The answer', p=['Information from Qualtrics survey data as well as insights about cultural eddies and nuances (both within Chicago’s ethnic communities and neighborhoods as well as legacy info from cultures of origin) helped the Sox achieve record turnouts for Heritage Night games, fan embrace of social media efforts, and further development of ticketing and other initiatives.']),
          dict(h='Mexican Heritage Night', media=['2025-CWS-t-shirts.jpg']),
