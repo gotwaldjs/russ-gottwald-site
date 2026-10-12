@@ -39,6 +39,7 @@ EMAIL = EMAIL.strip().removeprefix('mailto:')
 # draft=True: waiting on material; built only when SHOW_DRAFTS is True.
 # groups=[dict(media=[...], label='...', deck=True), ...] in a section: image groups shown in order above that
 #   section's media; label adds a line above the group, deck=True makes it a sideways carousel at any size.
+# h='' in a section: no heading; videos and images still show.
 # sub=True in a section: its heading is a smaller sub-heading under the section before it.
 # hero=False: no large image at the top of the page; cover is still the Work grid card and share image.
 # ════════════════════════════════════════════════════════════════
@@ -47,7 +48,7 @@ def seq(fmt, nums): return [fmt.format(n) for n in nums]
 PROJECTS = [
   dict(slug='nipsco', cargo='13958411', client='NIPSCO', card='NIPSCO Energy Efficiency', title='“The Hoosier Knows”', year='2019–2020',
        agency='PACO Collective', kind='Integrated campaign', roles=['Strategy', 'Copywriting'],
-       tags=['Copywriting', 'Strategy', 'Strategy direction'], cover='NIPSCO_OOH_EE_14x48.png',
+       tags=['Copywriting', 'Strategy', 'Strategy direction'], cover='NIPSCO_OOH_EE_14x48.png', hero=False,
        summary='Folks in Northern Indiana could save money and energy with energy efficiency programs from NIPSCO – but not enough knew about it. So they hired PACO Collective to help spread the word.',
        sections=[
          dict(h='Creative strategy', p=['(Note: the red line is the good one.)'], media=['NIPSCOCreativeStrategy.png']),
@@ -60,27 +61,26 @@ PROJECTS = [
        ]),
   dict(slug='illinois-dhs', cargo='14488767', client='Illinois Department of Human Services', card='IDHS', title='COVID Awareness Campaign',
        year='2021', agency='[Agency]', kind='Public health campaign', roles=['Strategy'], tags=['Brand strategy', 'Strategy direction'],
-       cover='IDHS1.png',
-       summary='“We’re not saving lives” is one of the oldest jokes in advertising. But sometimes, we get a chance to.',
+       cover='IDHS1.png', hero=False,
+       summary='“We’re selling cat food, not saving lives” is one of the oldest jokes in advertising.\nBut sometimes, we get a chance to.',
        intro=['In 2021, the Illinois Department of Human Services wanted help raising COVID awareness among immigrant and refugee populations – specifically speakers of Arabic, Mandarin, Polish, Spanish, and Urdu.',
               'We had to not only determine the most relevant messages for each group, but also make sure that they were conveyed in an authentic manner.'],
        intro_media=['IDHS1.png', 'IDHS2.png'],
        sections=[
          dict(h='Arabic and Urdu', p=['Messaging stressed that it was important to get diagnosed early and that there was no shame in getting COVID.'],
               media=['IDHSArabic1.png', 'IDHSUrdu1.png', 'Screenshot-2023-10-22-at-5.46.21-PM.png', 'Screenshot-2023-10-22-at-5.46.44-PM.png']),
-         dict(h='Mandarin, Polish, and Spanish', p=['Messaging focused on how gatherings can spread the disease as well as the importance of early diagnosis.'],
-              placeholder='Mandarin, Polish, and Spanish executions (images to come)'),
+         dict(h='Mandarin, Polish, and Spanish', p=['Messaging focused on how gatherings can spread the disease as well as the importance of early diagnosis.']),
        ]),
   dict(slug='pork-and-mindys', cargo='13959231', client='Pork & Mindy’s', title='Brand Guidelines and Retail Packaging', year='[Year]',
        agency='[Agency]', kind='Brand and packaging', roles=['Strategy', 'Copywriting', 'Creative direction'],
-       tags=['Strategy', 'Copywriting', 'Creative direction'], cover='PnM_Sauce-Labels_MockUp_V2-R1_Sweet1.png',
-       summary='Pork & Mindy’s is a barbecue restaurant in Chicago that’s the brainchild of “Sandwich King” Jeff Mauro.',
+       tags=['Strategy', 'Copywriting', 'Creative direction'], cover='PnM_Sauce-Labels_MockUp_V2-R1_Sweet1.png', hero=False,
+       summary='Pork & Mindy’s was a barbecue restaurant in Chicago that was the brainchild of “Sandwich King” Jeff Mauro.',
        intro=['We were asked to maintain their brash, entertainingly in-your-face personality while refining the brand, opening new locations, and introducing new package designs for retail products.'],
        sections=[
+         dict(h='Bo Jackson’s Pig Candy', media=['BosSweetPC.jpg', 'BosSweetHeatPC.jpg']),
          dict(h='Barbecue sauce labels', p=['New labels feature pairing options and fold-out recipes.'],
               media=['PnM_Sauce-Labels_MockUp_V2-R1_Sweet1.png', 'PnM_Sauce-Labels_MockUp_V2-R1_Sweet2.png', 'PnM_Sauce-Labels_MockUp_V2-R1_SweetHeat2.png']),
          dict(h='Sauce packets', p=['Designed for sale with co-branded quick-prep meals.'], media=['Packet1-Sweet.png', 'Packet2-SweetHeat.png']),
-         dict(h='Bo Jackson’s Pig Candy', media=['BosSweetPC.jpg', 'BosSweetHeatPC.jpg']),
          dict(h='Brand book', p=['The Brand Book was an opportunity to show future users the P&M brand even as we explained how to use it. Here are a few pages to give the idea.'],
               media=seq('BrandBook{}.png', [1, 2, 3, 5, 6, 12, 16, 30, 34])),
        ]),
@@ -94,7 +94,7 @@ PROJECTS = [
        ], hidden=True),
   dict(slug='big-lots', cargo='9404576', client='Big Lots!', title='Shopper Segment Profile', year='[Year]',
        agency='PACO Collective', kind='Consumer research', roles=['Strategy'],
-       tags=['Strategy', 'Qual research', 'Quant research', 'Consumer journey'], cover='Slide1.png',
+       tags=['Strategy', 'Qual research', 'Quant research', 'Consumer journey'], cover='Slide1.png', hero=False,
        summary='Big Lots! wanted to market outdoor furniture to Latinas. PACO was there to help them understand who they were trying to engage.',
        sections=[dict(h='The research', media=seq('Slide{}.png', [1] + list(range(3, 36))))]),
   dict(slug='burger-bach', cargo='13961117', client='Burger Bach', title='Brand review before franchising', year='[Year]',
@@ -103,7 +103,7 @@ PROJECTS = [
        sections=[dict(h='The review', media=[('BBRecsPres.008.png' if n == 8 else f'BBRecsPres{n:03d}.png') for n in range(1, 20)])], hidden=True),
   dict(slug='usc-student-work', cargo='14488764', client='University of South Carolina', card='USC', title='Instructor Portfolio',
        year='2020–2024', agency='', kind='Instructor portfolio', roles=['Teaching', 'Creative direction', 'Strategy'],
-       tags=['Creative direction', 'Strategy direction'], cover='CityLarge.jpg', prompts=False,
+       tags=['Creative direction', 'Strategy direction'], cover='CityLarge.jpg', hero=False, prompts=False,
        summary='Here is some of the work my students have done; awards and accolades where noted.',
        sections=[
          dict(h='Tampax', p=['2024 YoungOnes Finalist (OOH & Print/Promotional) and Shortlist (Art Direction); Gold ADDY and Best in Show (AAF Midlands and AAF District 3); Silver ADDY (AAF National).',
@@ -142,10 +142,9 @@ PROJECTS = [
               media=seq('Slide{}.png', [1, 2, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 6])),
        ], hidden=True),
   dict(slug='second-showing', cargo='10199980', client='VCU Brandcenter', card='Second Showing', title='A Service for Independent Filmmakers', year='[Year]', agency='',
-       kind='Brandcenter project', roles=['Strategy'], tags=['Strategy', 'Brandcenter'], cover='Second-Showing.001.jpg',
-       summary='[One sentence on what Second Showing is and what your part was.]',
-       sections=[dict(h='The deck', media=seq('Second-Showing.{:03d}.jpg', range(1, 16))),
-                 dict(h='The film', media=['vimeo:51654614'])]),
+       kind='Brandcenter project', roles=['Strategy'], tags=['Strategy', 'Brandcenter'], cover='Second-Showing.001.jpg', hero=False,
+       summary='Two of my Brandcenter classmates and I\nproposed a service to help independent films\nfind their audiences.',
+       sections=[dict(h='', media=['vimeo:51654614'] + seq('Second-Showing.{:03d}.jpg', range(1, 16)))]),
   dict(slug='campaigns-that-might-have-been', cargo='10199864', client='Spec work', card='Spec Work', title='Campaigns that Might Have Been…but Never Were',
        year='Varies', agency='', kind='Spec campaigns', roles=['Copywriting'], tags=['Copywriting', 'Art direction'],
        cover='NavyPier_FunHappens_OOH_Image.png', hero=False, summary='',
@@ -194,7 +193,7 @@ PROJECTS = [
   # ── New projects (copy from Russ's "Portfolio Things" email, Sept 2026). Titles and years are first guesses for Russ to confirm. ──
   # SOLO's enhanced product music video (102 MB, over GitHub's file limit) needs a Vimeo upload; add it as 'vimeo:ID' when it has one.
   dict(slug='solo', cargo='', client='SOLO', title='“Empieza lo bueno”', year='2026', agency='PACO Collective', kind='Test campaign',
-       roles=['Strategy'], tags=['Strategy development', 'Strategy direction'], cover='Freezer-cling-mockup.jpg',
+       roles=['Strategy'], tags=['Strategy development', 'Strategy direction'], cover='Freezer-cling-mockup.jpg', hero=False,
        summary='SOLO wanted to conduct a test campaign aimed at gaining Latino customers.',
        sections=[
          dict(h='The insight', p=['SOLO’s unique place within American party culture (there are songs about the red cup in genres ranging from country to hip-hop) combines with Latino social and party habits to allow a unique opportunity to reach a bicultural audience.']),
@@ -203,15 +202,16 @@ PROJECTS = [
        ]),
   dict(slug='white-sox', cargo='', client='Chicago White Sox', title='Cultural Consulting', year='2025–2026', agency='PACO Collective',
        kind='Cultural consulting', roles=['Strategy', 'Creative direction'],
-       tags=['Cultural consulting', 'Strategy direction', 'Creative direction', 'Survey analysis'], cover='2025-CWS-t-shirts.jpg',
+       tags=['Cultural consulting', 'Strategy direction', 'Creative direction', 'Survey analysis'], cover='2025-CWS-t-shirts.jpg', hero=False,
        summary='The Sox sought general fanbase insights, particularly among their Latino fanbase.',
        intro=['They also asked for input on events and promotions such as AAPI Month, Hispanic, Mexican, and Hispanic Heritage games and merch, and celebrating America’s 250th anniversary.', 'Above: Mexican Heritage Night merch, 2025.'],
        sections=[
          dict(h='The answer', p=['Information from Qualtrics survey data as well as insights about cultural eddies and nuances (both within Chicago’s ethnic communities and neighborhoods as well as legacy info from cultures of origin) helped the Sox achieve record turnouts for Heritage Night games, fan embrace of social media efforts, and further development of ticketing and other initiatives.']),
+         dict(h='Mexican Heritage Night', media=['2025-CWS-t-shirts.jpg']),
          dict(h='America 250', media=['CWS-America-250-Want-You.jpg', 'CWS-America-250-Bonds.jpg', 'CWS-America-250-Rosie.jpg', 'CWS-America-250-Defend.jpg']),
        ]),
   dict(slug='united-flea-markets', cargo='', client='United Flea Markets', card='UFM', title='Market Analysis and Vendor Segmentation', year='2021', agency='PACO Collective',
-       kind='Research and positioning', roles=['Strategy'], tags=['Strategy development', 'Qual research', 'Segmentation'], cover='UFMStrategyExcerpts.001.png',
+       kind='Research and positioning', roles=['Strategy'], tags=['Strategy development', 'Qual research', 'Segmentation'], cover='UFMStrategyExcerpts.001.png', hero=False,
        summary='UFM sought help positioning their market network for a post-COVID rebound in both vendor presence and shopper visitation.',
        sections=[
          dict(h='The insight', p=['Longitudinal research into vendor and shopper psychographics revealed a distinct typology that informed segmentation of both groups – and that interaction with customers, not simply making money or getting rid of excess stuff, was the primary motivator for the most numerous and reliable vendor groups.']),
@@ -220,7 +220,7 @@ PROJECTS = [
        ]),
   dict(slug='shure', cargo='', client='Shure', title='Inclusive Marketing Playbook', year='2022', agency='PACO Collective',
        kind='Process playbook', roles=['Strategy', 'Copywriting'],
-       tags=['Procedural analysis', 'Cultural adaptation', 'Copywriting', 'Client seminars'], cover='Shure_1.jpg',
+       tags=['Procedural analysis', 'Cultural adaptation', 'Copywriting', 'Client seminars'], cover='Shure_1.jpg', hero=False,
        summary='Shure wanted to fit inclusivity into their global campaign development process.',
        sections=[
          dict(h='The insight', p=['This didn’t just require consideration of their brand value and development process from beginning to end; it meant understanding exactly what “inclusivity” meant in specific regional and cultural contexts – an approach based solely on American understandings and perspectives would go nowhere.']),
@@ -229,7 +229,7 @@ PROJECTS = [
        ]),
   dict(slug='rcn', cargo='', client='RCN', title='Customer Segmentation', year='2019', agency='PACO Collective',
        kind='Segmentation strategy', roles=['Strategy'], tags=['Strategy development', 'Segmentation', 'Quant research'],
-       cover='RCN_NewSegmentation.003.png',
+       cover='RCN_NewSegmentation.003.png', hero=False,
        summary='RCN wanted help with a new marketing campaign in the Chicago area.',
        sections=[
          dict(h='The insight', p=['The existing segmentation, based on life stages, didn’t address why RCN’s offerings might be of interest to potential target audiences.']),
@@ -329,7 +329,7 @@ E = lambda s: html.escape(str(s), quote=True)
 def T(s):
     s = str(s)
     if re.fullmatch(r'\[.*\]', s.strip()): return f'<span class="placeholder">{E(s)}</span>'
-    return re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', E(s))   # **text** is bold
+    return re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', E(s)).replace('\n', '<br>')   # **text** is bold; \n is a line break
 def plain(s): return re.sub(r'\s+', ' ', re.sub(r'\[.*?\]|\*\*', '', str(s))).strip()
 
 T_MARK = '<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="2" width="18" height="4" fill="#ffb300"/><rect x="8" y="2" width="4" height="16" fill="#ffb300"/></svg>'
@@ -418,11 +418,14 @@ def project_page(p):
     hero = f'<img src="{r}{img_path(p, p["cover"])}" alt="{E(p["title"])}">' if p.get('cover') else '<div class="ph" style="aspect-ratio:16/9"><span>Hero image, 16:9</span></div>'
     secs = []
     for s in p['sections']:
-        m = ''.join(group_block(p, g, r, s['h']) for g in s.get('groups', [])) + media_block(p, s.get('media', []), r, s['h'])
+        label = s['h'] or p['title']   # h='' leaves the heading out
+        m = ''.join(group_block(p, g, r, label) for g in s.get('groups', [])) + media_block(p, s.get('media', []), r, label)
         if s.get('placeholder'): m = f'<div class="ph" style="aspect-ratio:16/9"><span>{E(s["placeholder"])}</span></div>'
         wide = '<div class="wide">' + m + '</div>' if m else ''
         hx = 'h3' if s.get('sub') else 'h2'
-        secs.append(f'<div class="sec"><div class="stem prose"><{hx}>' + E(s['h']) + f'</{hx}>' + paras(s.get('p')) + '</div>' + wide + '</div>')
+        head = f'<{hx}>' + E(s['h']) + f'</{hx}>' if s['h'] else ''
+        prose = '<div class="stem prose">' + head + paras(s.get('p')) + '</div>' if head or s.get('p') else ''
+        secs.append(f'<div class="sec{" sub" if s.get("sub") else ""}">' + prose + wide + '</div>')
     credits = p.get('credits') or [('[Role]', '[Name]'), ('[Role]', '[Name]')]
     intro = ''
     if p.get('intro'):

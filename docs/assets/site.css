@@ -73,7 +73,7 @@ h1:focus{outline:none;}
 .prose h3{margin:0 0 .5em;font-weight:600;font-size:1.125rem;line-height:1.3;}
 .prose h2:first-child{margin-top:0;}
 .prose p{margin:0 0 1.1em;}
-.prose p:last-child{margin-bottom:0;}
+.prose > :last-child{margin-bottom:0;}
 .placeholder{color:var(--ink2);}
 
 /* ─────────────────────────────────────────────
@@ -130,8 +130,8 @@ h1:focus{outline:none;}
 /* ─────────────────────────────────────────────
    Work: rows of three or four
    ───────────────────────────────────────────── */
-.work-head{text-align:center;padding-top:clamp(32px,6vw,72px);margin-bottom:clamp(32px,5vw,56px);}
-.work-head h1{margin:0 0 16px;font-weight:300;font-size:clamp(2.125rem,6vw,3.75rem);line-height:1.08;letter-spacing:-.018em;}
+.work-head{text-align:center;padding-top:clamp(40px,8vw,88px);margin-bottom:clamp(32px,5vw,48px);}
+.work-head h1{margin:0 0 20px;font-weight:300;font-size:clamp(2.125rem,6vw,3.75rem);line-height:1.08;letter-spacing:-.018em;}
 .work-head .note{max-width:36rem;margin:0 auto;color:var(--ink2);font-size:.9375rem;line-height:1.55;text-wrap:pretty;}
 .work-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:40px 24px;}
 @media (min-width:560px){.work-list{grid-template-columns:repeat(2,1fr);}}
@@ -150,7 +150,7 @@ h1:focus{outline:none;}
 .p-head{padding-top:clamp(24px,5vw,56px);padding-bottom:clamp(32px,5vw,48px);text-align:center;}
 .p-client{margin:0 0 12px;color:var(--ink2);}
 .p-sum{margin:20px auto 0;max-width:36ch;font-size:clamp(1.125rem,2.2vw,1.3125rem);line-height:1.45;color:var(--ink2);text-wrap:balance;}
-.p-hero{margin-bottom:clamp(40px,6vw,72px);}
+.p-hero{margin-bottom:clamp(32px,5vw,48px);}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:20px 16px;text-align:center;}
 .facts div{min-width:0;}
 .facts dt{color:var(--ink2);font-size:.8125rem;margin-bottom:2px;}
@@ -159,6 +159,7 @@ h1:focus{outline:none;}
 .p-body{display:flex;flex-direction:column;gap:clamp(48px,7vw,80px);}
 .p-body .the-line{margin:0 auto;}
 .sec{display:flex;flex-direction:column;gap:24px;}
+.p-body > .sec.sub{margin-top:calc(40px - clamp(48px,7vw,80px));}
 .p-body > *,.sec > *{width:100%;}
 .the-line{margin:clamp(56px,9vw,104px) auto;padding:0 var(--gutter);max-width:calc(52rem + 2*var(--gutter));text-align:center;}
 .the-line p{margin:0;font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(1.75rem,5vw,3.25rem);line-height:1.15;letter-spacing:-.01em;text-wrap:balance;}
@@ -182,14 +183,14 @@ h1:focus{outline:none;}
 .pairs{list-style:none;padding-left:0;padding-right:0;display:grid;grid-template-columns:1fr;gap:10px;text-align:center;}
 .pairs li{font-weight:300;font-size:clamp(1.375rem,3.4vw,2rem);line-height:1.2;letter-spacing:-.01em;}
 @media (min-width:720px){.pairs{grid-template-columns:repeat(3,1fr);gap:24px;}}
-.about-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:48px;}
+.about-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px;}
 
 /* ─────────────────────────────────────────────
    Resume
    ───────────────────────────────────────────── */
 .r-head{padding-top:clamp(40px,8vw,88px);padding-bottom:clamp(32px,5vw,48px);text-align:center;}
 .r-head h1{margin:0;font-weight:300;font-size:clamp(2.125rem,6vw,3.75rem);line-height:1.08;letter-spacing:-.018em;}
-.r-head .sub{margin:12px 0 0;color:var(--ink2);}
+.r-head .sub{margin:20px 0 0;color:var(--ink2);}
 .r-head .contact{margin:6px 0 24px;}
 .resume{max-width:calc(44rem + 2*var(--gutter));}
 .r-sec{padding-top:28px;margin-top:40px;border-top:1px solid var(--rule);}
@@ -241,7 +242,7 @@ h1:focus{outline:none;}
 .wide > * + *{margin-top:16px;}
 .media-label{max-width:var(--stem);margin:0 auto;font-weight:600;font-size:.9375rem;}
 .wide > * + .media-label{margin-top:40px;}
-.wide > .media-label + *{margin-top:12px;}
+.wide > .media-label + *{margin-top:24px;}
 .site-foot .ways li{display:flex;align-items:center;gap:8px;}
 .copy-email{min-height:44px;padding:0 10px;background:none;border:0;color:var(--ink2);font:inherit;font-size:.8125rem;text-decoration:underline;text-underline-offset:.2em;cursor:pointer;}
 .copy-email:hover{color:var(--ink);}
