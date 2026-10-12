@@ -150,6 +150,7 @@ h1:focus{outline:none;}
 .p-head{padding-top:clamp(24px,5vw,56px);padding-bottom:clamp(32px,5vw,48px);text-align:center;}
 .p-client{margin:0 0 12px;color:var(--ink2);}
 .p-sum{margin:20px auto 0;max-width:36ch;font-size:clamp(1.125rem,2.2vw,1.3125rem);line-height:1.45;color:var(--ink2);text-wrap:balance;}
+.p-sum.full{max-width:none;}
 .p-hero{margin-bottom:clamp(32px,5vw,48px);}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:20px 16px;text-align:center;}
 .facts div{min-width:0;}

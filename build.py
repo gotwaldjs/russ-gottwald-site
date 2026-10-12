@@ -42,6 +42,7 @@ EMAIL = EMAIL.strip().removeprefix('mailto:')
 # h='' in a section: no heading; videos and images still show.
 # sub=True in a section: its heading is a smaller sub-heading under the section before it.
 # hero=False: no large image at the top of the page; cover is still the Work grid card and share image.
+# summary_full=True: the summary may use the whole reading column instead of its usual narrower width.
 # ════════════════════════════════════════════════════════════════
 def seq(fmt, nums): return [fmt.format(n) for n in nums]
 
@@ -104,7 +105,7 @@ PROJECTS = [
   dict(slug='usc-student-work', cargo='14488764', client='University of South Carolina', card='USC', title='Instructor Portfolio',
        year='2020–2024', agency='', kind='Instructor portfolio', roles=['Teaching', 'Creative direction', 'Strategy'],
        tags=['Creative direction', 'Strategy direction'], cover='CityLarge.jpg', hero=False, prompts=False,
-       summary='Here is some of the work my students have done; awards and accolades where noted.',
+       summary='Here is some of the work my students have done;\nawards and accolades where noted.', summary_full=True,
        sections=[
          dict(h='Tampax', p=['2024 YoungOnes Finalist (OOH & Print/Promotional) and Shortlist (Art Direction); Gold ADDY and Best in Show (AAF Midlands and AAF District 3); Silver ADDY (AAF National).',
                              'Sophia McKowen and Abby Mondello'],
@@ -435,7 +436,7 @@ def project_page(p):
     result = '<div class="stem prose"><h2>What happened</h2><p>' + T(p.get('result') or '[What happened. A number if you have one; recognition and what the client did next count too.]') + '</p></div>' if show(p.get('result')) else ''
     cred = '<div class="stem prose"><h2>Credits</h2><dl class="credits">' + ''.join('<dt>%s</dt><dd>%s</dd>' % (T(a), T(b)) for a, b in credits) + '</dl></div>' if show(p.get('credits')) else ''
     factsh = ''.join('<div><dt>%s</dt><dd>%s</dd></div>' % (E(k), T(v)) for k, v in facts)
-    sumh = '<p class="p-sum">' + T(p['summary']) + '</p>' if p['summary'] else ''
+    sumh = '<p class="p-sum' + (' full' if p.get('summary_full') else '') + '">' + T(p['summary']) + '</p>' if p['summary'] else ''
     heroh = '<div class="wide p-hero">' + hero + '</div>' if p.get('hero', True) else ''
     body = f'''<article>
   <div class="stem"><a class="back" href="{r}work/index.html">Back to all work</a></div>
