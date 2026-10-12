@@ -104,7 +104,7 @@ PROJECTS = [
        sections=[dict(h='The review', media=[('BBRecsPres.008.png' if n == 8 else f'BBRecsPres{n:03d}.png') for n in range(1, 20)])], hidden=True),
   dict(slug='usc-student-work', cargo='14488764', client='University of South Carolina', card='USC', title='Instructor Portfolio',
        year='2020–2024', agency='', kind='Instructor portfolio', roles=['Teaching', 'Creative direction', 'Strategy'],
-       tags=['Creative direction', 'Strategy direction'], cover='CityLarge.jpg', hero=False, prompts=False,
+       tags=['Creative direction', 'Strategy direction'], cover='BusStop.jpg', hero=False, prompts=False,
        summary='Here is some of the work my students have done;\nawards and accolades where noted.', summary_full=True,
        sections=[
          dict(h='Tampax', p=['2024 YoungOnes Finalist (OOH & Print/Promotional) and Shortlist (Art Direction); Gold ADDY and Best in Show (AAF Midlands and AAF District 3); Silver ADDY (AAF National).',
