@@ -4,7 +4,7 @@
    ───────────────────────────────────────────── */
 :root{
   --page:#ffffff; --ink:#1c1c1c; --ink2:#525252; --rule:#d9d8d4; --paper:#f5f4f0;
-  --amber:#f0a202; --focus:#0f62fe;
+  --amber:#ffb300; --focus:#0f62fe;
   --stem:38rem;          /* depth: the reading column */
   --bar:72rem;           /* range: the wide container */
   --gutter:clamp(20px,6vw,64px);

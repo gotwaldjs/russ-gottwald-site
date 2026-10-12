@@ -324,7 +324,7 @@ def T(s):
     return f'<span class="placeholder">{E(s)}</span>' if re.fullmatch(r'\[.*\]', s.strip()) else E(s)
 def plain(s): return re.sub(r'\s+', ' ', re.sub(r'\[.*?\]', '', str(s))).strip()
 
-T_MARK = '<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="2" width="18" height="4" fill="#f0a202"/><rect x="8" y="2" width="4" height="16" fill="#f0a202"/></svg>'
+T_MARK = '<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="2" width="18" height="4" fill="#ffb300"/><rect x="8" y="2" width="4" height="16" fill="#ffb300"/></svg>'
 
 def page(path, title, desc, body, nav, scripts=(), og_image=None):
     depth = path.count('/')
@@ -347,7 +347,7 @@ def page(path, title, desc, body, nav, scripts=(), og_image=None):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{E(title)}</title>
 {chr(10).join(meta)}
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='1' y='2' width='18' height='4' fill='%23f0a202'/%3E%3Crect x='8' y='2' width='4' height='16' fill='%23f0a202'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='1' y='2' width='18' height='4' fill='%23ffb300'/%3E%3Crect x='8' y='2' width='4' height='16' fill='%23ffb300'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&family=IBM+Plex+Serif:ital,wght@1,300&display=swap" rel="stylesheet">

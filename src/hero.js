@@ -17,7 +17,7 @@ const lerp = (a, b, x) => a + (b - a)*x;
 const rad = d => d*Math.PI/180;
 
 const GROUND = 440, BAR = 250, SX = 780, X0 = 620, X1 = 940;
-const INK = '#1c1c1c', AMBER = '#f0a202', CAST_INK = '#6f6f6f', STONE = '#a8a8a8', HK = 1.3, CK = .95;
+const INK = '#1c1c1c', AMBER = '#ffb300', CAST_INK = '#6f6f6f', STONE = '#a8a8a8', HK = 1.3, CK = .95;
 
 const P = {
   STAND: [-90, 106, 100, 74, 80, 100, 95, 80, 85],
