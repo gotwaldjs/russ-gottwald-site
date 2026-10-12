@@ -49,7 +49,8 @@ def seq(fmt, nums): return [fmt.format(n) for n in nums]
 PROJECTS = [
   dict(slug='nipsco', cargo='13958411', client='NIPSCO', card='NIPSCO Energy Efficiency', title='“The Hoosier Knows”', year='2019–2020',
        agency='PACO Collective', kind='Integrated campaign', roles=['Strategy', 'Copywriting'],
-       tags=['Copywriting', 'Strategy', 'Strategy direction'], cover='NIPSCO_OOH_EE_14x48.png', hero=False,
+       tags=['Copywriting', 'Strategy', 'Strategy direction'], hero=False,
+       cover='nipsco/NIPSCO_Griller_card.jpg',   # frame from the Griller video; the folder prefix keeps it off the Cargo download list
        summary='Folks in Northern Indiana could save money and energy with energy efficiency programs from NIPSCO – but not enough knew about it. So they hired PACO Collective to help spread the word.',
        sections=[
          dict(h='Creative strategy', p=['(Note: the red line is the good one.)'], media=['NIPSCOCreativeStrategy.png']),
