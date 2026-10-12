@@ -14,7 +14,7 @@ A plain static site, published with GitHub Pages at www.russgottwald.com.
 - `WORK_ORDER` in `build.py` sets the order of the Work page. Projects left out of it still get a page but aren't in the grid.
 - New projects waiting on material are marked `draft=True`. Set `SHOW_DRAFTS = True` in `settings.py` to preview them.
 - For a new project, put its images in `docs/images/<slug>/`, fill in its entry, and remove `draft=True`.
-- `PORTRAIT` in `settings.py` picks the About headshot: `russ-4604.jpg` or `russ-conventional.jpg`.
+- `PORTRAIT` in `settings.py` picks the About headshot (a file in `docs/images/about/`); it shows square.
 
 ## Every update
 1. Edit `settings.py` or the CONTENT section of `build.py`.

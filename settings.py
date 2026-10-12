@@ -5,3 +5,4 @@ LINKEDIN = 'https://www.linkedin.com/in/rlgottwald/'
 LOCATION = 'Richmond, VA'
 SITE_URL = 'https://www.russgottwald.com'   # must match the custom domain in GitHub Pages settings
 SHOW_PROMPTS = False
+PORTRAIT = 'russ-headshot-square.jpg'   # About page headshot, in docs/images/about/

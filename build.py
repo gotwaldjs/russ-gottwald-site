@@ -19,7 +19,7 @@ LOCATION = '[City, State]'
 SITE_URL = ''
 SHOW_PROMPTS = True
 SHOW_DRAFTS = False   # True previews projects still waiting on material
-PORTRAIT = 'russ-4604.jpg'   # or 'russ-conventional.jpg' (both in docs/images/about/)
+PORTRAIT = 'russ-headshot-square.jpg'   # square; also in docs/images/about/: russ-4604.jpg, russ-conventional.jpg
 try:
     from settings import *  # noqa: F401,F403
 except ImportError:
@@ -459,7 +459,7 @@ def project_page(p):
     return page(f'work/{p["slug"]}/index.html', f'{plain(p["title"]) or plain(p["client"])} | {NAME}', plain(p['summary']) or plain(p['title']), body, 'work',
                 og_image=img_path(p, p['cover']) if p.get('cover') else None)
 
-LEDE = 'Strategist, copywriter, creative director and teacher. I make teams and their work sharper, and help clients solve the problems conventional approaches haven’t.'
+LEDE = 'Strategist, copywriter, creative director, and teacher. I make teams and their work sharper, and help clients solve the problems conventional approaches haven’t.'
 
 def home():
     hero_markup = open(os.path.join(HERE, 'src', 'hero.html')).read().replace('{{LEDE}}', E(LEDE))
@@ -500,14 +500,14 @@ def work():
 
 def about():
     body = f'''<header class="stem page-head center">
-  <div class="portrait"><img src="../images/about/{E(PORTRAIT)}" alt="Russ Gottwald" width="1000" height="1250"></div>
+  <div class="portrait"><img src="../images/about/{E(PORTRAIT)}" alt="Russ Gottwald" width="1024" height="1024"></div>
   <h1>We’re all supposed to be <span style="white-space:nowrap">hyper-specialized</span> these days.</h1>
-  <p class="sub">My career didn’t turn out that way, and I’m grateful for it.</p>
+  <p class="sub full">My career didn’t turn out that way,<br>and I’m grateful for it.</p>
 </header>
 <div class="wide"><ul class="t-bar pairs" aria-label="Roles held"><li>Strategist and copywriter</li><li>Agency and academia</li><li>Practitioner and mentor</li></ul></div>
 <div class="stem prose">
   {''.join(f'<p>{E(x)}</p>' for x in ABOUT)}
-  <div class="about-actions"><a class="btn" href="../resume/index.html">See the resume</a><a class="btn" href="mailto:{E(EMAIL)}">Email Russ</a></div>
+  <div class="about-actions"><a class="btn" href="../resume/index.html">See my resume</a><a class="btn" href="mailto:{E(EMAIL)}">Email me</a></div>
 </div>'''
     return page('about/index.html', f'About | {NAME}', 'We’re all supposed to be hyper-specialized these days. My career didn’t turn out that way, and I’m grateful for it.', body, 'about')
 
