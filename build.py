@@ -244,7 +244,8 @@ WORK_ORDER = ['solo', 'white-sox', 'usc-student-work', 'united-flea-markets', 's
               'big-lots', 'pork-and-mindys', 'second-showing', 'campaigns-that-might-have-been']
 
 # Timeline from Russ's resume (Sept 2026); descriptions from his role descriptions (Oct 2026).
-# Each entry: org, place, dates, roles [(title, dates)], body (paragraphs), lists {heading: [items]}
+# Each entry: org, place, dates, roles [(title, dates)], body (paragraphs; a [list] inside body is a bulleted list),
+# lists {heading: [items]}
 RESUME = dict(
   highlights=[
     ('Leadership and team management', [
@@ -270,8 +271,12 @@ RESUME = dict(
     dict(org='PACO Collective', place='Chicago, IL', dates='2017–2026',
          roles=[('Director of Brand Strategy', '2025–2026'), ('Associate Strategy Director/Copywriter', '2022–2025'),
                 ('Senior Brand Strategist/Copywriter', '2019–2022'), ('Account Planner/Copywriter', '2017–2018')],
-         body=['Brand strategy, including qualitative and quantitative research, brief drafting, client-facing liaison, KPI development, and creative direction; new business/RFP response; concept development; copywriting including TV, radio, OOH, social, paid search, websites, and blog posts; AI policy development; thought leadership; intern project direction.',
-               'Clients have included Amazon, SOLO, Chicago White Sox, Chicago Bears, Aetna, Blue Cross Blue Shield, BMO, Oportun, United Flea Markets, Shure, Illinois Department of Human Services, NIPSCO, Peoples Gas/North Shore Gas, ComEd, Baltimore Gas & Electric, RCN, Big Lots, Rumba Meats, Greater Chicago Food Depository, Crate & Barrel, Pork & Mindy’s, and more.']),
+         body=['Grew from account planner to director of brand strategy while writing much of the work the strategy led to.',
+               ['Led strategy from research to brief to creative direction: qualitative and quantitative studies, briefs, KPIs, and client presentation.',
+                'Wrote TV, radio, OOH, social, paid search, web, and blog copy.',
+                'Wrote and led rollout for the Strategy department’s AI policy; consulted with ECD and Media Director on their departmental policies.',
+                'Led new-business and RFP responses, directed intern projects, and wrote on inclusive marketing and other topics as thought leadership.'],
+               'Clients included Amazon, the Chicago White Sox, the Chicago Bears, SOLO, Shure, Aetna, BMO, NIPSCO, IDHS, Crate & Barrel, United Flea Markets, and more.']),
     dict(org='Virginia Commonwealth University', place='Richmond, VA', dates='2025–present',
          roles=[('Adjunct Professor, Advertising', '')],
          lists={'Courses taught': ['MASC 481 – Completeness', 'MASC 399 – Empathy']}),
@@ -312,9 +317,6 @@ RESUME = dict(
     dict(org='VCU Brandcenter', place='Richmond, VA', dates='2011–2013', roles=[('M.S., Creative Brand Management', '')]),
     dict(org='Hawaii Pacific University', place='Honolulu, HI', dates='2008–2010', roles=[('National Security & Strategic Studies', '')]),
   ],
-  recognition=['Silver Telly, Craft: Use of Humor, NIPSCO “Griller,” 2020',
-               'Bronze Telly, Craft: Use of Humor, NIPSCO “Driver,” 2020',
-               'Lürzer’s Archive, NIPSCO “Driver,” December 2019'],
 )
 
 ABOUT = [
@@ -514,7 +516,8 @@ def about():
 def resume():
     def entry(e):
         roles = ''.join(f'<h3>{T(t)}{f" <span class=r-sub>{T(d)}</span>" if d else ""}</h3>' for t, d in e['roles'])
-        body = ''.join(f'<p class="r-body">{T(x)}</p>' for x in e.get('body', []))
+        body = ''.join('<ul class="r-list">' + ''.join(f'<li>{T(y)}</li>' for y in x) + '</ul>' if isinstance(x, list) else f'<p class="r-body">{T(x)}</p>'
+                       for x in e.get('body', []))
         lists = ''.join(f'<p class="r-lh">{E(h)}</p><ul class="r-list">{"".join(f"<li>{T(x)}</li>" for x in xs)}</ul>' for h, xs in e.get('lists', {}).items())
         return f'<div class="r-entry"><div class="r-dates">{T(e["dates"])}</div><div><p class="r-org">{T(e["org"])} <span class="r-place">{T(e["place"])}</span></p>{roles}{body}{lists}</div></div>'
     R = RESUME
@@ -529,7 +532,6 @@ def resume():
   <section class="r-sec"><h2>Timeline</h2>{''.join(map(entry, R["timeline"]))}</section>
   <section class="r-sec"><h2>Education</h2>{''.join(map(entry, R["education"]))}</section>
   <section class="r-sec"><h2>Experience highlights</h2><div class="r-hls">{hl}</div></section>
-  <section class="r-sec"><h2>Recognition</h2><ul class="r-list">{''.join(f'<li>{T(x)}</li>' for x in R["recognition"])}</ul></section>
 </div>'''
     return page('resume/index.html', f'Resume | {NAME}', f'Resume of {NAME}: strategy, copywriting, creative direction, teaching.', body, 'resume', scripts=('site.js',))
 
