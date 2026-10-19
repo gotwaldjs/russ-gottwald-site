@@ -40,6 +40,7 @@ EMAIL = EMAIL.strip().removeprefix('mailto:')
 # groups=[dict(media=[...], label='...', deck=True), ...] in a section: image groups shown in order above that
 #   section's media; label adds a line above the group, deck=True makes it a sideways carousel at any size.
 # h='' in a section: no heading; videos and images still show.
+# deck=True in a section: its images become a sideways carousel at any count.
 # sub=True in a section: its heading is a smaller sub-heading under the section before it.
 # hero=False: no large image at the top of the page; cover is still the Work grid card and share image.
 # summary_full=True: the summary may use the whole reading column instead of its usual narrower width.
@@ -58,7 +59,7 @@ PROJECTS = [
          dict(h='Video', p=['“Driver” was featured in the December 2019 Lürzer’s Archive and won a Bronze Telly in 2020 for Craft: Use of Humor.',
                             '“Griller” won a Silver Telly in 2020 for Craft: Use of Humor.'],
               media=['vimeo:364287200', 'vimeo:364286717']),
-         dict(h='OOH: sequential billboards', media=seq('NIPSCO_OOH_Sequential_416x1504_IN-374-2_0{}.jpg', [1, 2, 3])),
+         dict(h='OOH: sequential billboards', deck=True, media=seq('NIPSCO_OOH_Sequential_416x1504_IN-374-2_0{}.jpg', [1, 2, 3])),
          dict(h='OOH: standard billboards', media=['NIPSCO_OOH_EE_14x48.png', 'NIPSCO_OOH_Digital_Heating-AC_400x1400_60051.jpg', 'NIPSCO_OOH_Digital_CI_416x1504_IN-137-1.jpg'], layout='one'),
        ]),
   dict(slug='illinois-dhs', cargo='14488767', client='Illinois Department of Human Services', card='IDHS', title='COVID Awareness Campaign',
@@ -223,7 +224,7 @@ PROJECTS = [
          dict(h='The answer', p=['A campaign that addressed the non-cost-related motivators that drove an actual majority of flea market vendors and shoppers alike.'],
               media=seq('UFMStrategyExcerpts.{:03d}.png', range(1, 21))),
        ]),
-  dict(slug='shure', cargo='', client='Shure', title='Inclusive Marketing Playbook', year='2022', agency='PACO Collective',
+  dict(slug='shure', cargo='', client='Shure', title='Inclusive Marketing Playbook', year='2021', agency='PACO Collective',
        kind='Process playbook', roles=['Strategy', 'Copywriting'],
        tags=['Procedural analysis', 'Cultural adaptation', 'Copywriting', 'Client seminars'], cover='Shure_1.jpg', hero=False,
        summary='Shure wanted to fit inclusivity into their global campaign development process.',
@@ -426,7 +427,7 @@ def project_page(p):
     secs = []
     for s in p['sections']:
         label = s['h'] or p['title']   # h='' leaves the heading out
-        m = ''.join(group_block(p, g, r, label) for g in s.get('groups', [])) + media_block(p, s.get('media', []), r, label)
+        m = ''.join(group_block(p, g, r, label) for g in s.get('groups', [])) + media_block(p, s.get('media', []), r, label, s.get('deck', False))
         if s.get('placeholder'): m = f'<div class="ph" style="aspect-ratio:16/9"><span>{E(s["placeholder"])}</span></div>'
         wide = '<div class="wide">' + m + '</div>' if m else ''
         hx = 'h3' if s.get('sub') else 'h2'
