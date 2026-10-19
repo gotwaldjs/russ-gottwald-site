@@ -146,7 +146,7 @@ PROJECTS = [
   dict(slug='second-showing', cargo='10199980', client='VCU Brandcenter', card='Second Showing', title='A Service for Independent Filmmakers', year='2013', agency='',
        kind='Brandcenter project', roles=['Strategy'], tags=['Strategy', 'Brandcenter'], cover='Second-Showing.001.jpg', hero=False,
        summary='Two of my Brandcenter classmates and I\nproposed a service to help independent films\nfind their audiences.',
-       intro=['4042 feature films were submitted to the Sundance Film Festival in 2012. 110 got shown. 30 got distributed.',
+       intro=['4042 feature films were submitted to the Sundance Film Festival in 2012.\n110 got shown. 30 got distributed.',
               'These numbers are typical of major independent film festivals.'],
        sections=[dict(h='The opportunity', p=['What happens to the other 4000?'],
                       media=['vimeo:51654614'])]),
