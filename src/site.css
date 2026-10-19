@@ -132,8 +132,9 @@ h1:focus{outline:none;}
    Work: rows of three or four
    ───────────────────────────────────────────── */
 .work-head{text-align:center;padding-top:clamp(40px,8vw,88px);margin-bottom:clamp(32px,5vw,48px);}
-.work-head h1{margin:0 0 20px;font-weight:300;font-size:clamp(2.125rem,6vw,3.75rem);line-height:1.08;letter-spacing:-.018em;}
-.work-head .note{max-width:36rem;margin:0 auto;color:var(--ink2);font-size:.9375rem;line-height:1.55;text-wrap:pretty;}
+.work-head h1{margin:0;font-weight:300;font-size:clamp(2.125rem,6vw,3.75rem);line-height:1.08;letter-spacing:-.018em;}
+.work-foot{margin-top:clamp(48px,7vw,80px);text-align:center;}
+.work-foot .note{max-width:36rem;margin:0 auto;color:var(--ink2);font-size:.9375rem;line-height:1.55;text-wrap:pretty;}
 .work-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:40px 24px;}
 @media (min-width:560px){.work-list{grid-template-columns:repeat(2,1fr);}}
 @media (min-width:860px){.work-list{grid-template-columns:repeat(3,1fr);}}

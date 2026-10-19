@@ -143,10 +143,13 @@ PROJECTS = [
          dict(h='Criterion', p=['Concept Development, Fall 2022.', 'Isabel Borja and Dan Zigelbaum'],
               media=seq('Slide{}.png', [1, 2, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 6])),
        ], hidden=True),
-  dict(slug='second-showing', cargo='10199980', client='VCU Brandcenter', card='Second Showing', title='A Service for Independent Filmmakers', year='[Year]', agency='',
+  dict(slug='second-showing', cargo='10199980', client='VCU Brandcenter', card='Second Showing', title='A Service for Independent Filmmakers', year='2013', agency='',
        kind='Brandcenter project', roles=['Strategy'], tags=['Strategy', 'Brandcenter'], cover='Second-Showing.001.jpg', hero=False,
        summary='Two of my Brandcenter classmates and I\nproposed a service to help independent films\nfind their audiences.',
-       sections=[dict(h='', media=['vimeo:51654614'] + seq('Second-Showing.{:03d}.jpg', range(1, 16)))]),
+       intro=['4042 feature films were submitted to the Sundance Film Festival in 2012. 110 got shown. 30 got distributed.',
+              'These numbers are typical of major independent film festivals.'],
+       sections=[dict(h='The opportunity', p=['What happens to the other 4000?'],
+                      media=['vimeo:51654614'])]),
   dict(slug='campaigns-that-might-have-been', cargo='10199864', client='Spec work', card='Spec Work', title='Campaigns that Might Have Been…but Never Were',
        year='Varies', agency='', kind='Spec campaigns', roles=['Copywriting'], tags=['Copywriting', 'Art direction'],
        cover='NavyPier_FunHappens_OOH_Image.png', hero=False, summary='',
@@ -492,11 +495,13 @@ def work():
 </li>''' for i, p in enumerate(items))
     body = f'''<header class="wide work-head">
   <h1>Selected work</h1>
-  <p class="note">I can’t show you everything here: some clients aren’t too keen on sharing a ton of details on websites. But I’ll be happy to discuss broad outlines, methodologies, and results of additional projects.</p>
 </header>
 <section class="wide" aria-label="Projects">
   <ul class="work-list">{cards}</ul>
-</section>'''
+</section>
+<div class="wide work-foot">
+  <p class="note">I can’t show you everything here: some clients aren’t too keen on sharing a ton of details on websites. But I’ll be happy to discuss broad outlines, methodologies, and results of additional projects.</p>
+</div>'''
     first = next((p for p in items if p.get('cover')), None)
     return page('work/index.html', f'Work | {NAME}', 'Selected work by Russ Gottwald: strategy, copywriting, creative direction, and teaching.', body, 'work',
                 og_image=img_path(first, first['cover']) if first else None)
