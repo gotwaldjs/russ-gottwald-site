@@ -325,7 +325,8 @@ RESUME = dict(
 )
 
 ABOUT = [
-  'I’ve had to approach this business from a lot of angles – which has made me a better strategist, creative, leader, and instructor than I’d ever have been otherwise. Briefing a creative team and justifying to clients why pushing the creative envelope is actually the safe option are different matters when one’s run a marathon or three in another discipline’s shoes. And I doubt I’d have ever had to manage 47 integrated teams at once in an agency setting.',
+  'I’ve had to approach this business from a lot of angles – which has made me a better strategist, creative, leader, and instructor than I’d ever have been otherwise.',
+  'Briefing a creative team and justifying to clients why pushing the creative envelope is actually the safe option are different matters when one’s run a marathon or three in another discipline’s shoes. And I doubt I’d have ever had to manage 47 integrated teams at once in an agency setting.',
   'Having to explain how things work to people with no experience makes questioning one’s assumptions second nature, so I have a certain sympathy to…well, call it “counter-conventional wisdom”. For challenger audiences, not just challenger brands. For the rest of us who’ve zigged (zug?) when the world told us we were supposed to zag.',
   'Can I get my hands dirty? You bet. I’ll do it with glee. But I’ll also make your team and their work sharper. And I’ll help your clients solve the problems that keep them awake at night – the ones that conventional approaches failed to work on.',
 ]
